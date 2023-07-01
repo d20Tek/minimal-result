@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using FluentAssertions;
 
-namespace D20Tek.Patterns.Result.UnitTests.Validators;
+namespace D20Tek.Patterns.Result.UnitTests.Assertions;
 
 internal static class ErrorAssertion
 {

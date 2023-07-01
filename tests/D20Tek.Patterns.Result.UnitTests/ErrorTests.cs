@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.UnitTests.Validators;
+using D20Tek.Patterns.Result.UnitTests.Assertions;
 
 namespace D20Tek.Patterns.Result.UnitTests
 {
