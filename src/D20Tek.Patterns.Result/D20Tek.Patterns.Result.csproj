@@ -4,6 +4,25 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>D20Tek.Patterns.Result</Title>
+    <Version>$(VersionPrefix)</Version>
+    <Company>d20Tek</Company>
+    <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.</Description>
+    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="https:\github.com\d20Tek\patterns-result\blob\main\README.md" />
+  </ItemGroup>
 
 </Project>

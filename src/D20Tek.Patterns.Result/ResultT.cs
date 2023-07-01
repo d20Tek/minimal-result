@@ -1,4 +1,7 @@
-﻿namespace D20Tek.Patterns.Result;
+﻿//---------------------------------------------------------------------------------------------------------------------
+// Copyright (c) d20Tek.  All rights reserved.
+//---------------------------------------------------------------------------------------------------------------------
+namespace D20Tek.Patterns.Result;
 
 public class Result<TValue> : Result, IResult<TValue>
 {

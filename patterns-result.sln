@@ -7,11 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C86DB0EB-5C6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D364C0F1-F923-4A60-A06C-7C7FC3CD1A80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Patterns.Result", "src\D20Tek.Patterns.Result\D20Tek.Patterns.Result.csproj", "{FC6669D6-8204-4EE7-B142-B0BAD9827D85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D20Tek.Patterns.Result", "src\D20Tek.Patterns.Result\D20Tek.Patterns.Result.csproj", "{FC6669D6-8204-4EE7-B142-B0BAD9827D85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{3DDEA830-14B9-4C7A-813F-F50269390834}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		.github\workflows\ci-build.yml = .github\workflows\ci-build.yml
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
