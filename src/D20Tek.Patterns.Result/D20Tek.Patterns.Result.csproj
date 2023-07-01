@@ -11,6 +11,7 @@
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.</Description>
     <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="https:\github.com\d20Tek\patterns-result\blob\main\README.md" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

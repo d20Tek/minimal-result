@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 namespace D20Tek.Patterns.Result;
 
-public struct Error
+public readonly struct Error
 {
     public int Type { get; }
 
@@ -42,6 +42,6 @@ public struct Error
     public static Error Invalid(string code, string message) =>
         new Error(code, message, ErrorType.Invalid);
 
-    public static Error Create(string code, string message, int errorType) =>
+    public static Error Custom(string code, string message, int errorType) =>
         new Error(code, message, errorType);
 }

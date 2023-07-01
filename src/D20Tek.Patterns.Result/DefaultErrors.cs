@@ -6,7 +6,7 @@ namespace D20Tek.Patterns.Result;
 public static class DefaultErrors
 {
     public static Error UnhandledExpection(string message) =>
-        Error.Create("General.UnhandledException", message, ErrorType.Unexpected);
+        Error.Custom("General.UnhandledException", message, ErrorType.Unexpected);
 
     public static readonly Error Unexpected =
         Error.NotFound("General.Unexpected", "An unexpected error has occurred.");
