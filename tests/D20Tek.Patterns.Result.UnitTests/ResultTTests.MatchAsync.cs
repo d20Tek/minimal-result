@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using FluentAssertions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
@@ -17,7 +18,7 @@ public partial class ResultTTests
         // act
         var newResult = await result.MatchAsync(
             val => DefaultSuccessOperationAsync(out successOperationCalled),
-            errors => DefaultFailureOperationAsync(out failureOperationCalled));
+            [ExcludeFromCodeCoverage] (errors) => default!);
 
         // assert
         newResult.Should().Be("ok");
@@ -34,7 +35,7 @@ public partial class ResultTTests
 
         // act
         var newResult = await result.MatchAsync(
-            val => DefaultSuccessOperationAsync(out successOperationCalled),
+            [ExcludeFromCodeCoverage] (val) => default!,
             errors => DefaultFailureOperationAsync(out failureOperationCalled));
 
         // assert
@@ -53,7 +54,7 @@ public partial class ResultTTests
         // act
         var newResult = await result.MatchFirstErrorAsync(
             val => DefaultSuccessOperationAsync(out successOperationCalled),
-            error => DefaultFailureOperationAsync(error, out failureOperationCalled));
+            [ExcludeFromCodeCoverage] (error) => default!);
 
         // assert
         newResult.Should().Be("ok");
@@ -70,7 +71,7 @@ public partial class ResultTTests
 
         // act
         var newResult = await result.MatchFirstErrorAsync(
-            val => DefaultSuccessOperationAsync(out successOperationCalled),
+            [ExcludeFromCodeCoverage] (val) => default!,
             error => DefaultFailureOperationAsync(error, out failureOperationCalled));
 
         // assert

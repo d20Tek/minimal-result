@@ -10,6 +10,7 @@ namespace D20Tek.Patterns.Result.UnitTests;
 [TestClass]
 public partial class ResultTTests
 {
+    [ExcludeFromCodeCoverage]
     public class TestEntity
     {
         public int Code { get; set; }
@@ -94,7 +95,7 @@ public partial class ResultTTests
         // act
         var newResult = result.Match(
             val => DefaultSuccessOperation(out successOperationCalled),
-            errors => DefaultFailureOperation(out failureOperationCalled));
+            [ExcludeFromCodeCoverage] (errors) => DefaultFailureOperation(out failureOperationCalled));
 
         // assert
         newResult.Should().Be("ok");
@@ -111,7 +112,7 @@ public partial class ResultTTests
 
         // act
         var newResult = result.Match(
-            val => DefaultSuccessOperation(out successOperationCalled),
+            [ExcludeFromCodeCoverage] (val) => default!,
             errors => DefaultFailureOperation(out failureOperationCalled));
 
         // assert
@@ -130,7 +131,7 @@ public partial class ResultTTests
         // act
         var newResult = result.MatchFirstError(
             val => DefaultSuccessOperation(out successOperationCalled),
-            error => DefaultFailureOperation(error, out failureOperationCalled));
+            [ExcludeFromCodeCoverage] (error) => default!);
 
         // assert
         newResult.Should().Be("ok");
@@ -147,7 +148,7 @@ public partial class ResultTTests
 
         // act
         var newResult = result.MatchFirstError(
-            val => DefaultSuccessOperation(out successOperationCalled),
+            [ExcludeFromCodeCoverage] (val) => default!,
             error => DefaultFailureOperation(error, out failureOperationCalled));
 
         // assert

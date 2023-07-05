@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.UnitTests.Assertions;
 using FluentAssertions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
@@ -69,7 +70,7 @@ public class ResultTests
         var operationCalled = false;
 
         // act
-        result.IfFailure(errors => { operationCalled = true; });
+        result.IfFailure([ExcludeFromCodeCoverage] (errors) => { operationCalled = true; });
 
         // assert
         operationCalled.Should().BeFalse();
@@ -97,7 +98,7 @@ public class ResultTests
         var operationCalled = false;
 
         // act
-        await result.IfFailureAsync(errors =>
+        await result.IfFailureAsync([ExcludeFromCodeCoverage] (errors) =>
         { 
             operationCalled = true;
             return Task.CompletedTask;
@@ -133,7 +134,7 @@ public class ResultTests
         var operationCalled = false;
 
         // act
-        result.IfSuccess(() => { operationCalled = true; });
+        result.IfSuccess([ExcludeFromCodeCoverage]() => { operationCalled = true; });
 
         // assert
         operationCalled.Should().BeFalse();
@@ -161,7 +162,7 @@ public class ResultTests
         var operationCalled = false;
 
         // act
-        await result.IfSuccessAsync(() =>
+        await result.IfSuccessAsync([ExcludeFromCodeCoverage] () =>
         {
             operationCalled = true;
             return Task.CompletedTask;
