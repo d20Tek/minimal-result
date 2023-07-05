@@ -1,6 +1,8 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using System.Xml;
+
 namespace D20Tek.Patterns.Result;
 
 public class Result : IResult
@@ -41,7 +43,7 @@ public class Result : IResult
 
     public static Result Success() => new Result();
 
-    public void IfFailure<TResult>(Action<IEnumerable<Error>> failure)
+    public void IfFailure(Action<IEnumerable<Error>> failure)
     {
         if (IsFailure)
         {
@@ -54,6 +56,22 @@ public class Result : IResult
         if (IsFailure)
         {
             await failure(Errors).ConfigureAwait(false);
+        }
+    }
+
+    public void IfSuccess(Action success)
+    {
+        if (IsSuccess)
+        {
+            success();
+        }
+    }
+
+    public async Task IfSuccessAsync(Func<Task> success)
+    {
+        if (IsSuccess)
+        {
+            await success().ConfigureAwait(false);
         }
     }
 }
