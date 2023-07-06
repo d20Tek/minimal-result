@@ -14,10 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{3DDEA8
 		.gitignore = .gitignore
 		.github\workflows\ci-build.yml = .github\workflows\ci-build.yml
 		LICENSE = LICENSE
+		.github\workflows\nuget-release.yml = .github\workflows\nuget-release.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Patterns.Result.UnitTests", "tests\D20Tek.Patterns.Result.UnitTests\D20Tek.Patterns.Result.UnitTests.csproj", "{F1124C38-9CF9-4732-AA62-F49EE84B58E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D20Tek.Patterns.Result.UnitTests", "tests\D20Tek.Patterns.Result.UnitTests\D20Tek.Patterns.Result.UnitTests.csproj", "{F1124C38-9CF9-4732-AA62-F49EE84B58E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
