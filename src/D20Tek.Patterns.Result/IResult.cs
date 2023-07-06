@@ -11,7 +11,11 @@ public interface IResult
 
     public IReadOnlyList<Error> Errors { get; }
 
-    public void IfFailure<TResult>(Action<IEnumerable<Error>> failure);
+    public void IfFailure(Action<IEnumerable<Error>> failure);
 
     public Task IfFailureAsync(Func<IEnumerable<Error>, Task> failure);
+
+    public void IfSuccess(Action success);
+
+    public Task IfSuccessAsync(Func<Task> success);
 }
