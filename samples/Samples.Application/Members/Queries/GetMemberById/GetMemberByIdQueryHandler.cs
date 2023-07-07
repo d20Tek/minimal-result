@@ -27,6 +27,6 @@ public sealed class GetMemberByIdQueryHandler
             return DomainErrors.Member.NotFound(query.Id);
         }
 
-        return member!;
+        return Result<Member>.Success(member);
     }
 }
