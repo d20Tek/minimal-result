@@ -72,6 +72,20 @@ public partial class ResultTTests
     }
 
     [TestMethod]
+    public void Success_CreatesResultWithValue()
+    {
+        // arrange
+
+        // act
+        var result = Result<int>.Success(101);
+
+        // assert
+        result.ShouldBeSuccess();
+        result.Value.GetType().Should().Be(typeof(int));
+        result.Value.Should().Be(101);
+    }
+
+    [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
     [ExcludeFromCodeCoverage]
     public void Result_WithFailure_ValueThrowsException()
@@ -83,78 +97,6 @@ public partial class ResultTTests
         _ = result.Value;
 
         // assert
-    }
-
-    [TestMethod]
-    public void Match_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.Match(
-            val => DefaultSuccessOperation(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (errors) => DefaultFailureOperation(out failureOperationCalled));
-
-        // assert
-        newResult.Should().Be("ok");
-        successOperationCalled.Should().BeTrue();
-        failureOperationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void Match_OnlyCallsFailureOperation_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = DefaultErrors.Conflict;
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.Match(
-            [ExcludeFromCodeCoverage] (val) => default!,
-            errors => DefaultFailureOperation(out failureOperationCalled));
-
-        // assert
-        newResult.Should().Be("problem");
-        successOperationCalled.Should().BeFalse();
-        failureOperationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public void MatchFirstError_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.MatchFirstError(
-            val => DefaultSuccessOperation(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (error) => default!);
-
-        // assert
-        newResult.Should().Be("ok");
-        successOperationCalled.Should().BeTrue();
-        failureOperationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void MatchFirstError_OnlyCallsFailureOperation_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = new Error[] { DefaultErrors.Conflict, DefaultErrors.Unauthorized };
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.MatchFirstError(
-            [ExcludeFromCodeCoverage] (val) => default!,
-            error => DefaultFailureOperation(error, out failureOperationCalled));
-
-        // assert
-        newResult.Should().Be("problem");
-        successOperationCalled.Should().BeFalse();
-        failureOperationCalled.Should().BeTrue();
     }
 
     private string DefaultSuccessOperation(out bool successOperationCalled)
@@ -173,6 +115,21 @@ public partial class ResultTTests
     {
         failureOperationCalled = true;
         return "problem";
+    }
+
+    private void DefaultSuccessAction(out bool successActionCalled)
+    {
+        successActionCalled = true;
+    }
+
+    private void DefaultFailureAction(out bool failureActionCalled)
+    {
+        failureActionCalled = true;
+    }
+
+    private void DefaultFailureAction(Error error, out bool failureActionCalled)
+    {
+        failureActionCalled = error.Equals(DefaultErrors.Conflict);
     }
 
     private Result<TestEntity> CreateTestResult()

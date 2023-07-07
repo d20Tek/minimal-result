@@ -11,6 +11,8 @@ public interface IResult<TValue> : IResult
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure);
 
+    public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure);
+
     public Task<TResult> MatchAsync<TResult>(
         Func<TValue, Task<TResult>> success,
         Func<IEnumerable<Error>, Task<TResult>> failure);
@@ -18,6 +20,8 @@ public interface IResult<TValue> : IResult
     public TResult MatchFirstError<TResult>(
         Func<TValue, TResult> success,
         Func<Error, TResult> failure);
+
+    public void MatchFirstError(Action<TValue> success, Action<Error> failure);
 
     public Task<TResult> MatchFirstErrorAsync<TResult>(
         Func<TValue, Task<TResult>> success,
