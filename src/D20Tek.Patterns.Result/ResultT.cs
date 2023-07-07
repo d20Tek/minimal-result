@@ -49,10 +49,24 @@ public class Result<TValue> : Result, IResult<TValue>
     public static implicit operator Result<TValue>(Exception exception) =>
         new Result<TValue>(DefaultErrors.UnhandledExpection(exception.Message));
 
+    public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
+
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure) =>
         (IsSuccess) ? success(Value) : failure(Errors);
+
+    public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
+    {
+        if (IsSuccess)
+        {
+            success(Value);
+        }
+        else
+        {
+            failure(Errors);
+        }
+    }
 
     public async Task<TResult> MatchAsync<TResult>(
         Func<TValue, Task<TResult>> success,
@@ -73,10 +87,21 @@ public class Result<TValue> : Result, IResult<TValue>
         Func<Error, TResult> failure) =>
         (IsSuccess) ? success(Value) : failure(Errors.First());
 
+    public void MatchFirstError(Action<TValue> success, Action<Error> failure)
+    {
+        if (IsSuccess)
+        {
+            success(Value);
+        }
+        else
+        {
+            failure(Errors.First());
+        }
+    }
 
     public async Task<TResult> MatchFirstErrorAsync<TResult>(
-        Func<TValue, Task<TResult>> success,
-        Func<Error, Task<TResult>> failure)
+    Func<TValue, Task<TResult>> success,
+    Func<Error, Task<TResult>> failure)
     {
         if (IsSuccess)
         {

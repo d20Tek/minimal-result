@@ -44,4 +44,9 @@ public readonly struct Error
 
     public static Error Custom(string code, string message, int errorType) =>
         new Error(code, message, errorType);
+
+    public override string ToString()
+    {
+        return $"Error ({Code} [{Type}]): {Message}";
+    }
 }

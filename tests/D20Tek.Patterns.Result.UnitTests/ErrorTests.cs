@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.UnitTests.Assertions;
+using FluentAssertions;
 
 namespace D20Tek.Patterns.Result.UnitTests
 {
@@ -69,6 +70,23 @@ namespace D20Tek.Patterns.Result.UnitTests
 
             // assert
             error.ShouldBe(code, message, errorType);
+        }
+
+        [TestMethod]
+        public void ToString_ShouldProduceExpectedOutput()
+        {
+            // arrange
+            var code = "Test.Custom";
+            var message = "Custom error message.";
+            var errorType = 42;
+
+            var error = Error.Custom(code, message, errorType);
+
+            // act
+            var result = error.ToString();
+
+            // assert
+            result.Should().Be("Error (Test.Custom [42]): Custom error message.");
         }
 
         private void PerformErrorTest(
