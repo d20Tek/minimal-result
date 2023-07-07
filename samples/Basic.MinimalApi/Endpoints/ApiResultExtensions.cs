@@ -18,6 +18,17 @@ public static class ApiResultExtensions
         return Problem(errors);
     }
 
+    public static IResult Problem(this IResultExtensions results, Error error)
+    {
+        var errors = new List<Error> { error };
+        if (error.Type == ErrorType.Validation)
+        {
+            return ValidationProblem(errors);
+        }
+
+        return Problem(errors);
+    }
+
     public static IResult Problem(
         this IResultExtensions results,
         int statusCode,
