@@ -10,7 +10,7 @@ public static class ApiResultExtensions
 {
     public static Api.IResult Problem(this IResultExtensions results, IEnumerable<Error> errors)
     {
-        if (errors.All(e => e.Type == ErrorType.Validation))
+        if (errors.Any() && errors.All(e => e.Type == ErrorType.Validation))
         {
             return ValidationProblem(errors);
         }
@@ -37,7 +37,7 @@ public static class ApiResultExtensions
     {
         var ext = new Dictionary<string, object?>
         {
-            { "errorCodes", new object[] { errorCode } }
+            { "errorCodes", new string[] { $"Error ({errorCode} [{statusCode}]): {message}" } }
         };
 
         return Results.Problem(
@@ -69,7 +69,7 @@ public static class ApiResultExtensions
 
         var ext = new Dictionary<string, object?>
         {
-            { "errorCodes", errors.Select(e => e.Code) }
+            { "errorCodes", errors.Select(e => e.ToString()) }
         };
 
         return Results.Problem(

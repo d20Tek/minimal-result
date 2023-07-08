@@ -78,7 +78,7 @@ internal static class ApiResultAssertion
         this Microsoft.AspNetCore.Http.IResult apiResult,
         int expectedStatusCode,
         string expectedTitle,
-        Error expectedError)
+        Error? expectedError = null)
     {
         apiResult.Should().NotBeNull();
         apiResult.Should().BeOfType<ProblemHttpResult>();
@@ -87,7 +87,36 @@ internal static class ApiResultAssertion
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(expectedStatusCode);
         response.ProblemDetails.Status.Should().Be(expectedStatusCode);
-        response.ProblemDetails.Detail.Should().Be(expectedError.Message);
+        response.ProblemDetails.Detail.Should().Be(expectedError?.Message);
+        response.ProblemDetails.Title.Should().Be(expectedTitle);
+
+        if (expectedError != null)
+        {
+            response.ProblemDetails.Extensions.Should().HaveCount(1);
+
+            var ext = response.ProblemDetails.Extensions.First();
+            ext.Key.Should().Be("errorCodes");
+            var errorCodes = ext.Value as IEnumerable<string>;
+            errorCodes.Should().NotBeNull();
+            errorCodes.Should().HaveCount(1);
+            errorCodes!.First().ToString().Should().Be(expectedError.Value.ToString());
+        }
+    }
+
+    public static void ShouldBeProblemResult(
+        this Microsoft.AspNetCore.Http.IResult apiResult,
+        int expectedStatusCode,
+        string expectedTitle,
+        IEnumerable<Error> expectedErrors)
+    {
+        apiResult.Should().NotBeNull();
+        apiResult.Should().BeOfType<ProblemHttpResult>();
+
+        var response = apiResult.As<ProblemHttpResult>();
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(expectedStatusCode);
+        response.ProblemDetails.Status.Should().Be(expectedStatusCode);
+        response.ProblemDetails.Detail.Should().Be(expectedErrors.First().Message);
         response.ProblemDetails.Title.Should().Be(expectedTitle);
         response.ProblemDetails.Extensions.Should().HaveCount(1);
 
@@ -95,7 +124,34 @@ internal static class ApiResultAssertion
         ext.Key.Should().Be("errorCodes");
         var errorCodes = ext.Value as IEnumerable<string>;
         errorCodes.Should().NotBeNull();
-        errorCodes.Should().HaveCount(1);
-        errorCodes!.First().ToString().Should().Be(expectedError.Code);
+        errorCodes.Should().HaveCount(expectedErrors.Count());
+        foreach (var error in expectedErrors)
+        {
+            errorCodes.Should().Contain(error.ToString());
+        }
+    }
+
+    public static void ShouldBeValidationProblemResult(
+        this Microsoft.AspNetCore.Http.IResult apiResult,
+        int expectedStatusCode,
+        string expectedTitle,
+        IEnumerable<Error> expectedErrors)
+    {
+        apiResult.Should().NotBeNull();
+        apiResult.Should().BeOfType<ProblemHttpResult>();
+
+        var response = apiResult.As<ProblemHttpResult>();
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(expectedStatusCode);
+        response.ProblemDetails.Status.Should().Be(expectedStatusCode);
+        response.ProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+
+        var validations = response.ProblemDetails as HttpValidationProblemDetails;
+        validations.Should().NotBeNull();
+        validations!.Errors.Should().HaveCount(expectedErrors.Count());
+        foreach (var error in expectedErrors)
+        {
+            validations.Errors.Should().ContainKey(error.Code);
+        }
     }
 }
