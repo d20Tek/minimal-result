@@ -22,7 +22,6 @@ public static class MembersEndpoint
             GetMemberByEmailQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
-
             return result.ToApiResult(ToResponse);
         })
         .WithName("GetMemberByEmail")
@@ -35,7 +34,6 @@ public static class MembersEndpoint
             GetMemberByIdQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
-
             return result.ToApiResult(ToResponse);
         })
         .WithName("GetMemberById")
@@ -71,8 +69,8 @@ public static class MembersEndpoint
                 request.FirstName,
                 request.LastName,
                 request.Email);
-            var result = await commandHandler.Handle(command);
 
+            var result = await commandHandler.Handle(command);
             return result.ToApiResult(ToResponse);
         })
         .WithName("UpdateMember")
@@ -85,7 +83,6 @@ public static class MembersEndpoint
             DeleteMemberCommandHandler commandHandler) =>
         {
             var result = await commandHandler.Handle(new DeleteMemberCommand(id));
-
             return result.ToApiResult(ToResponse);
         })
         .WithName("DeleteMember")
