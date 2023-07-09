@@ -94,6 +94,25 @@ public class ResultExtensionsTests
     }
 
     [TestMethod]
+    public void ToApiResult_WithMultipleErrors_ReturnsFirstAndErrorList()
+    {
+        // arrange
+        var errors = new List<Error>
+        {
+            Error.Custom("Test.Error", "Test error message", ErrorType.Unauthorized),
+            Error.Validation("foo", "bar"),
+            DefaultErrors.Conflict
+        };
+        Result<TestEntity> modelResult = errors;
+
+        // act
+        var apiResult = modelResult.ToApiResult();
+
+        // assert
+        apiResult.ShouldBeProblemResult(StatusCodes.Status401Unauthorized, "Unauthorized", errors);
+    }
+
+    [TestMethod]
     public void ToCreatedApiResult_WithMappingFuncAndRouteName_ReturnsCreated()
     {
         // arrange

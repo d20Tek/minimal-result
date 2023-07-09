@@ -20,13 +20,15 @@ public static class ApiResultExtensions
 
     public static Api.IResult Problem(this IResultExtensions results, Error error)
     {
-        var errors = new List<Error> { error };
         if (error.Type == ErrorType.Validation)
         {
-            return ValidationProblem(errors);
+            return ValidationProblem(new List<Error> { error });
         }
 
-        return Problem(errors);
+        int statusCode = MapErrorsToStatusCodes(error);
+        var ext = CreateErrorsExtension(error);
+
+        return Results.Problem(statusCode: statusCode, detail: error.Message, extensions: ext);
     }
 
     public static Api.IResult Problem(
@@ -35,15 +37,8 @@ public static class ApiResultExtensions
         string errorCode,
         string message)
     {
-        var ext = new Dictionary<string, object?>
-        {
-            { "errorCodes", new string[] { $"Error ({errorCode} [{statusCode}]): {message}" } }
-        };
-
-        return Results.Problem(
-                statusCode: statusCode,
-                detail: message,
-                extensions: ext);
+        var ext = CreateErrorsExtension(Error.Custom(errorCode, message, statusCode));
+        return Results.Problem(statusCode: statusCode, detail: message, extensions: ext);
     }
 
     private static Api.IResult Problem(IEnumerable<Error> errors)
@@ -53,9 +48,17 @@ public static class ApiResultExtensions
             return Results.Problem();
         }
 
-        var firstError = errors.First();
+        var error = errors.First();
+        int statusCode = MapErrorsToStatusCodes(error);
+        var ext = CreateErrorsExtension(errors);
 
-        var statusCode = firstError.Type switch
+        return Results.Problem(statusCode: statusCode, detail: error.Message, extensions: ext);
+
+    }
+
+    private static int MapErrorsToStatusCodes(Error error)
+    {
+        return error.Type switch
         {
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             ErrorType.Validation => StatusCodes.Status400BadRequest,
@@ -66,16 +69,22 @@ public static class ApiResultExtensions
             ErrorType.Invalid => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };
+    }
 
-        var ext = new Dictionary<string, object?>
+    private static Dictionary<string, object?> CreateErrorsExtension(IEnumerable<Error> errors)
+    {
+        return new Dictionary<string, object?>
         {
             { "errorCodes", errors.Select(e => e.ToString()) }
         };
+    }
 
-        return Results.Problem(
-            statusCode: statusCode,
-            detail: firstError.Message,
-            extensions: ext);
+    private static Dictionary<string, object?> CreateErrorsExtension(Error error)
+    {
+        return new Dictionary<string, object?>
+        {
+            { "errorCodes", new string[] { error.ToString() } }
+        };
     }
 
     private static Api.IResult ValidationProblem(IEnumerable<Error> errors)

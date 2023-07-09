@@ -70,7 +70,7 @@ public class ApiResultExtensionsTests
         // assert
         result.ShouldBeValidationProblemResult(
             StatusCodes.Status400BadRequest,
-            "Conflict",
+            "Bad Request",
             new List<Error> { error });
     }
 
