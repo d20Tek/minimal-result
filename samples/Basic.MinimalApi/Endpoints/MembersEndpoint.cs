@@ -28,7 +28,7 @@ public static class MembersEndpoint
         })
         .WithName("GetMemberByEmail")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
         group.MapGet("/{id:Guid}", async (
@@ -40,7 +40,7 @@ public static class MembersEndpoint
         })
         .WithName("GetMemberById")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
         group.MapPost("/", async (
@@ -58,7 +58,8 @@ public static class MembersEndpoint
         })
         .WithName("CreateMember")
         .Produces<MemberResponse>(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status409Conflict)
+        .ProducesProblem(StatusCodes.Status409Conflict)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
         group.MapPut("/{id:Guid}", async (
@@ -77,7 +78,8 @@ public static class MembersEndpoint
         })
         .WithName("UpdateMember")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status404NotFound)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
         group.MapDelete("/{id:Guid}", async (
@@ -89,7 +91,7 @@ public static class MembersEndpoint
         })
         .WithName("DeleteMember")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
     }
 
