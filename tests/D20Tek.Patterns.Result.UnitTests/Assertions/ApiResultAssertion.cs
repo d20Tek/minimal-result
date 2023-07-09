@@ -95,11 +95,12 @@ internal static class ApiResultAssertion
             response.ProblemDetails.Extensions.Should().HaveCount(1);
 
             var ext = response.ProblemDetails.Extensions.First();
-            ext.Key.Should().Be("errorCodes");
-            var errorCodes = ext.Value as IEnumerable<string>;
-            errorCodes.Should().NotBeNull();
-            errorCodes.Should().HaveCount(1);
-            errorCodes!.First().ToString().Should().Be(expectedError.Value.ToString());
+            ext.Key.Should().Be("errors");
+            var errors = ext.Value as IDictionary<string, string>;
+            errors.Should().NotBeNull();
+            errors.Should().HaveCount(1);
+            errors.Should().ContainKey(expectedError.Value.Code);
+            errors.Should().ContainValue(expectedError.Value.Message);
         }
     }
 
@@ -121,13 +122,14 @@ internal static class ApiResultAssertion
         response.ProblemDetails.Extensions.Should().HaveCount(1);
 
         var ext = response.ProblemDetails.Extensions.First();
-        ext.Key.Should().Be("errorCodes");
-        var errorCodes = ext.Value as IEnumerable<string>;
-        errorCodes.Should().NotBeNull();
-        errorCodes.Should().HaveCount(expectedErrors.Count());
+        ext.Key.Should().Be("errors");
+        var errors = ext.Value as IDictionary<string, string>;
+        errors.Should().NotBeNull();
+        errors.Should().HaveCount(expectedErrors.Count());
         foreach (var error in expectedErrors)
         {
-            errorCodes.Should().Contain(error.ToString());
+            errors.Should().ContainKey(error.Code);
+            errors.Should().ContainValue(error.Message);
         }
     }
 

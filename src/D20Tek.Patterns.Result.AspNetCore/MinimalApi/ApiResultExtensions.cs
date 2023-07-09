@@ -2,12 +2,15 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Http;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using Api = Microsoft.AspNetCore.Http;
 
 namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 
 public static class ApiResultExtensions
 {
+    private const string _errorsExtensionName = "errors";
+
     public static Api.IResult Problem(this IResultExtensions results, IEnumerable<Error> errors)
     {
         if (errors.Any() && errors.All(e => e.Type == ErrorType.Validation))
@@ -73,17 +76,28 @@ public static class ApiResultExtensions
 
     private static Dictionary<string, object?> CreateErrorsExtension(IEnumerable<Error> errors)
     {
+        var errorsExt = new Dictionary<string, string>();
+        foreach (var error in errors)
+        {
+            errorsExt.Add(error.Code, error.Message);
+        }
+
         return new Dictionary<string, object?>
         {
-            { "errorCodes", errors.Select(e => e.ToString()) }
+            { _errorsExtensionName, errorsExt }
         };
     }
 
     private static Dictionary<string, object?> CreateErrorsExtension(Error error)
     {
+        var errorsExt = new Dictionary<string, string>
+        {
+            { error.Code, error.Message }
+        };
+
         return new Dictionary<string, object?>
         {
-            { "errorCodes", new string[] { error.ToString() } }
+            { _errorsExtensionName, errorsExt }
         };
     }
 
