@@ -22,13 +22,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D20Tek.Patterns.Result.Unit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E77531F7-2730-4C76-9D1F-28287A0B44E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic.Cli", "samples\Basic.Cli\Basic.Cli.csproj", "{D4CAB31B-3501-4ABF-A383-9C11EFC1D964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic.Cli", "samples\Basic.Cli\Basic.Cli.csproj", "{D4CAB31B-3501-4ABF-A383-9C11EFC1D964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Core", "samples\Samples.Core\Samples.Core.csproj", "{69AF0774-B852-4D35-9E1A-A95BD9E4F6D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.Core", "samples\Samples.Core\Samples.Core.csproj", "{69AF0774-B852-4D35-9E1A-A95BD9E4F6D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Application", "samples\Samples.Application\Samples.Application.csproj", "{E7C27D6F-1024-401E-8236-FACA859FD492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.Application", "samples\Samples.Application\Samples.Application.csproj", "{E7C27D6F-1024-401E-8236-FACA859FD492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Infrastructure", "samples\Samples.Infrastructure\Samples.Infrastructure.csproj", "{1C461278-1194-445E-84A0-FF6CAEF223DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.Infrastructure", "samples\Samples.Infrastructure\Samples.Infrastructure.csproj", "{1C461278-1194-445E-84A0-FF6CAEF223DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic.MinimalApi", "samples\Basic.MinimalApi\Basic.MinimalApi.csproj", "{82C1E4EE-DD54-4615-8410-4A641BC91D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Patterns.Result.AspNetCore", "src\D20Tek.Patterns.Result.AspNetCore\D20Tek.Patterns.Result.AspNetCore.csproj", "{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,14 @@ Global
 		{1C461278-1194-445E-84A0-FF6CAEF223DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C461278-1194-445E-84A0-FF6CAEF223DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C461278-1194-445E-84A0-FF6CAEF223DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C1E4EE-DD54-4615-8410-4A641BC91D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C1E4EE-DD54-4615-8410-4A641BC91D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C1E4EE-DD54-4615-8410-4A641BC91D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C1E4EE-DD54-4615-8410-4A641BC91D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +83,8 @@ Global
 		{69AF0774-B852-4D35-9E1A-A95BD9E4F6D5} = {E77531F7-2730-4C76-9D1F-28287A0B44E4}
 		{E7C27D6F-1024-401E-8236-FACA859FD492} = {E77531F7-2730-4C76-9D1F-28287A0B44E4}
 		{1C461278-1194-445E-84A0-FF6CAEF223DB} = {E77531F7-2730-4C76-9D1F-28287A0B44E4}
+		{82C1E4EE-DD54-4615-8410-4A641BC91D28} = {E77531F7-2730-4C76-9D1F-28287A0B44E4}
+		{4AB3A5D4-2AB3-482A-A5BF-7B05607DB81A} = {C86DB0EB-5C60-4C39-9C78-905CE1634D05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F76C40A7-107D-4151-A82F-AE3AC87C7CF3}

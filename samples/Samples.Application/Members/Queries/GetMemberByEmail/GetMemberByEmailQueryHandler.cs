@@ -27,6 +27,6 @@ public sealed class GetMemberByEmailQueryHandler
             return DomainErrors.Member.NotFound(query.Email);
         }
 
-        return member!;
+        return Result<Member>.Success(member);
     }
 }

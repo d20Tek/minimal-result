@@ -27,7 +27,7 @@ public static partial class DomainErrors
 
         public static readonly Error LastNameEmpty = Error.Validation(
                 "LastName.Empty",
-                "LAst name is empty.");
+                "Last name is empty.");
 
         public static readonly Error LastNameTooLong = Error.Validation(
                 "LastName.TooLong",
