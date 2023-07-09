@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.MinimalApi.Contracts;
 using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
+using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
 using Samples.Application.Members.Commands.UpdateMember;
@@ -19,8 +20,8 @@ public static class MembersEndpoint
         var group = routes.MapGroup("/api/v1/members").WithTags("Members");
 
         group.MapGet("/email/{email}", async (
-            string email,
-            GetMemberByEmailQueryHandler queryHandler) =>
+            [FromRoute] string email,
+            [FromServices] GetMemberByEmailQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
             return result.ToApiResult(ToResponse);
@@ -31,8 +32,8 @@ public static class MembersEndpoint
         .WithOpenApi();
 
         group.MapGet("/{id:Guid}", async (
-            Guid id,
-            GetMemberByIdQueryHandler queryHandler) =>
+            [FromRoute] Guid id,
+            [FromServices] GetMemberByIdQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
             return result.ToApiResult(ToResponse);
@@ -43,8 +44,8 @@ public static class MembersEndpoint
         .WithOpenApi();
 
         group.MapPost("/", async (
-            CreateMemberRequest request,
-            CreateMemberCommandHandler commandHandler) =>
+            [FromBody] CreateMemberRequest request,
+            [FromServices] CreateMemberCommandHandler commandHandler) =>
         {
             var command = new CreateMemberCommand(
                 request.FirstName,
@@ -61,9 +62,9 @@ public static class MembersEndpoint
         .WithOpenApi();
 
         group.MapPut("/{id:Guid}", async (
-            Guid id,
-            UpdateMemberRequest request,
-            UpdateMemberCommandHandler commandHandler) =>
+            [FromRoute] Guid id,
+            [FromBody] UpdateMemberRequest request,
+            [FromServices] UpdateMemberCommandHandler commandHandler) =>
         {
             var command = new UpdateMemberCommand(
                 id,
@@ -80,8 +81,8 @@ public static class MembersEndpoint
         .WithOpenApi();
 
         group.MapDelete("/{id:Guid}", async (
-            Guid id,
-            DeleteMemberCommandHandler commandHandler) =>
+            [FromRoute] Guid id,
+            [FromServices] DeleteMemberCommandHandler commandHandler) =>
         {
             var result = await commandHandler.Handle(new DeleteMemberCommand(id));
             return result.ToApiResult(ToResponse);
