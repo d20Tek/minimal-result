@@ -4,10 +4,29 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>0.0.8-prerelease</Version>
+    <Title>D20Tek.Patterns.Result.AspNetCore</Title>
+    <Company>d20Tek</Company>
+    <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.
+This is an extension package that's useful in Asp.Net Core project for mapping Results to Minimal Api IResult and Controller-based IActionResult.</Description>
+    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Result; Result object; Error; Result pattern</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 	
   <ItemGroup>
