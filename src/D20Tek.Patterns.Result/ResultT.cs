@@ -46,6 +46,9 @@ public class Result<TValue> : Result, IResult<TValue>
     public static implicit operator Result<TValue>(Error[] errors) =>
         new Result<TValue>(errors);
 
+    public static implicit operator Result<TValue>(List<Error> errors) =>
+        new Result<TValue>(errors);
+
     public static implicit operator Result<TValue>(Exception exception) =>
         new Result<TValue>(DefaultErrors.UnhandledExpection(exception.Message));
 

@@ -58,6 +58,19 @@ public partial class ResultTTests
     }
 
     [TestMethod]
+    public void ImplicitErrorsList_ReturnsIsFailure_True()
+    {
+        // arrange
+        var errors = new List<Error> { DefaultErrors.NotFound, DefaultErrors.Conflict };
+
+        // act
+        Result<TestEntity> result = errors;
+
+        // assert
+        result.ShouldBeFailure(DefaultErrors.NotFound, DefaultErrors.Conflict);
+    }
+
+    [TestMethod]
     public void ImplicitException_ReturnsIsFailure_True()
     {
         // arrange
