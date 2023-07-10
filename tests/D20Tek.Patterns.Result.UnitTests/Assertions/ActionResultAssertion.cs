@@ -142,4 +142,27 @@ internal static class ActionResultAssertion
             errors.Should().ContainValue(error.Message);
         }
     }
+
+    public static void ShouldBeValidationProblemResult(
+        this ActionResult<TestResponse> actionResult,
+        IEnumerable<Error> expectedErrors)
+    {
+        actionResult.Should().NotBeNull();
+        actionResult.Result.Should().BeOfType<ObjectResult>();
+
+        var objResult = actionResult.Result.As<ObjectResult>();
+        objResult.Should().NotBeNull();
+        objResult.Value.Should().BeOfType<ValidationProblemDetails>();
+
+        var response = objResult.Value.As<ValidationProblemDetails>();
+        response.Should().NotBeNull();
+
+        var validations = response as HttpValidationProblemDetails;
+        validations.Should().NotBeNull();
+        validations!.Errors.Should().HaveCount(expectedErrors.Count());
+        foreach (var error in expectedErrors)
+        {
+            validations.Errors.Should().ContainKey(error.Code);
+        }
+    }
 }

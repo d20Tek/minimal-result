@@ -106,7 +106,7 @@ public static class ActionResultExtensions
         this ControllerBase controller,
         string? detail = null,
         string? instance = null,
-        int? statusCode = null,
+        int? statusCode = StatusCodes.Status500InternalServerError,
         string? title = null,
         string? type = null,
         IDictionary<string, string>? errorsExtension = null)
@@ -118,7 +118,7 @@ public static class ActionResultExtensions
             {
                 Detail = detail,
                 Instance = instance,
-                Status = statusCode ?? 500,
+                Status = statusCode,
                 Title = title,
                 Type = type,
             };
@@ -127,7 +127,7 @@ public static class ActionResultExtensions
         {
             problemDetails = controller.ProblemDetailsFactory.CreateProblemDetails(
                 controller.HttpContext,
-                statusCode: statusCode ?? 500,
+                statusCode: statusCode,
                 title: title,
                 type: type,
                 detail: detail,
