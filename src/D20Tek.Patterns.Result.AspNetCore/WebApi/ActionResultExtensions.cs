@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
@@ -49,6 +50,9 @@ public static class ActionResultExtensions
         var ext = CreateErrorsExtension(Error.Custom(errorCode, message, statusCode));
         return controller.Problem(statusCode: statusCode, detail: message, errorsExtension: ext);
     }
+
+    public static IActionResult ToIActionResult(this IConvertToActionResult actionResult) =>
+        actionResult.Convert();
 
     private static ActionResult<TResult> ProblemInternal<TResult>(
         ControllerBase controller,

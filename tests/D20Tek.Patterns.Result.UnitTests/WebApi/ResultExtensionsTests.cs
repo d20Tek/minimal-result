@@ -249,6 +249,33 @@ public class ResultExtensionsTests
         actionResult.ShouldBeProblemResult(StatusCodes.Status403Forbidden, error);
     }
 
+    [TestMethod]
+    public void ToIActionResult_WithMappingFunc_ReturnsOK()
+    {
+        // arrange
+        Result<TestEntity> modelResult = new TestEntity(42, "ActionTest", DateTime.UtcNow);
+
+        // act
+        var actionResult = modelResult.ToActionResult(ToResponse, _controller).ToIActionResult();
+
+        // assert
+        actionResult.ShouldBeOkResult(42, "ActionTest");
+    }
+
+    [TestMethod]
+    public void ToIActionResult_WithMappingFunc_ReturnsNotFound()
+    {
+        // arrange
+        var error = Error.Custom("Test.Error", "Test error message", ErrorType.NotFound);
+        Result<TestEntity> modelResult = error;
+
+        // act
+        var actionResult = modelResult.ToActionResult(ToResponse, _controller).ToIActionResult();
+
+        // assert
+        actionResult.ShouldBeProblemResult(StatusCodes.Status404NotFound, error);
+    }
+
     public class TestController : ControllerBase
     {
     }

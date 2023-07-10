@@ -3,7 +3,6 @@
 //---------------------------------------------------------------------------------------------------------------------
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace D20Tek.Patterns.Result.UnitTests.Assertions;
