@@ -63,10 +63,7 @@ public static class ActionResultExtensions
         int statusCode = MapErrorsToStatusCodes(error);
         var ext = CreateErrorsExtension(errors);
 
-        return controller.Problem(
-            statusCode: statusCode,
-            detail: error.Message,
-            errorsExtension: ext);
+        return controller.Problem(statusCode: statusCode, detail: error.Message, errorsExtension: ext);
     }
 
     private static int MapErrorsToStatusCodes(Error error)

@@ -57,7 +57,7 @@ public class MembersController : ControllerBase
         var result = await commandHandler.Handle(command);
 
         var routeValues = result.IsSuccess ? new { id = result.Value.Id } : null;
-        return result.ToCreatedAtActionResult(ToResponse, this, "GetMemberById", routeValues);
+        return result.ToCreatedActionResult(ToResponse, this, "GetMemberById", routeValues);
     }
 
     [HttpPut("{id:Guid}")]

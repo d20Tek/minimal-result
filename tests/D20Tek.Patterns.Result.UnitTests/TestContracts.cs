@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
+namespace D20Tek.Patterns.Result.UnitTests;
 
 [ExcludeFromCodeCoverage]
 public record TestResponse(int Id, string Message);
