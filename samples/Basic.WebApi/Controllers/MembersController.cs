@@ -2,67 +2,102 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.WebApi.Contracts;
+using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
 using Samples.Application.Members.Commands.UpdateMember;
 using Samples.Application.Members.Queries.GetMemberByEmail;
 using Samples.Application.Members.Queries.GetMemberById;
+using Samples.Core.Entities;
 
-namespace Basic.WebApi.Controllers
+namespace Basic.WebApi.Controllers;
+
+[Route("api/v1/members")]
+[ApiController]
+public class MembersController : ControllerBase
 {
-    [Route("api/v1/members")]
-    [ApiController]
-    public class MembersController : ControllerBase
+    [HttpGet("/email/{email}")]
+    [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ActionName("GetMemberByEmail")]
+    public async Task<ActionResult<MemberResponse>> Get(
+        [FromRoute] string email,
+        [FromServices] GetMemberByEmailQueryHandler queryHandler)
     {
-        [HttpGet("/email/{email}")]
-        [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public string Get(
-            [FromRoute] string email,
-            [FromServices] GetMemberByEmailQueryHandler queryHandler)
-        {
-            return "value-email";
-        }
+        var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
+        return result.ToActionResult(ToResponse, this);
+    }
 
-        [HttpGet("{id:Guid}")]
-        [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public string Get(
-            [FromRoute] Guid id,
-            [FromServices] GetMemberByIdQueryHandler queryHandler)
-        {
-            return "value";
-        }
+    [HttpGet("{id:Guid}")]
+    [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ActionName("GetMemberById")]
+    public async Task<ActionResult<MemberResponse>> Get(
+        [FromRoute] Guid id,
+        [FromServices] GetMemberByIdQueryHandler queryHandler)
+    {
+        var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
+        return result.ToActionResult(ToResponse, this);
+    }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public void Post(
-            [FromBody] CreateMemberRequest request,
-            [FromServices] CreateMemberCommandHandler commandHandler)
-        {
-        }
+    [HttpPost]
+    [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ActionName("CreateMember")]
+    public async Task<ActionResult<MemberResponse>> Post(
+        [FromBody] CreateMemberRequest request,
+        [FromServices] CreateMemberCommandHandler commandHandler)
+    {
+        var command = new CreateMemberCommand(
+            request.FirstName,
+            request.LastName,
+            request.Email);
+        var result = await commandHandler.Handle(command);
 
-        [HttpPut("{id:Guid}")]
-        [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public void Put(
-            [FromRoute] Guid id,
-            [FromBody] UpdateMemberRequest request,
-            [FromServices] UpdateMemberCommandHandler commandHandler)
-        {
-        }
+        var routeValues = result.IsSuccess ? new { id = result.Value.Id } : null;
+        return result.ToCreatedAtActionResult(ToResponse, this, "GetMemberById", routeValues);
+    }
 
-        [HttpDelete("{id:Guid}")]
-        [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public void Delete(
-            [FromRoute] Guid id,
-            [FromServices] DeleteMemberCommandHandler commandHandler)
-        {
-        }
+    [HttpPut("{id:Guid}")]
+    [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ActionName("UpdateMember")]
+    public async Task<ActionResult<MemberResponse>> Put(
+        [FromRoute] Guid id,
+        [FromBody] UpdateMemberRequest request,
+        [FromServices] UpdateMemberCommandHandler commandHandler)
+    {
+        var command = new UpdateMemberCommand(
+            id,
+            request.FirstName,
+            request.LastName,
+            request.Email);
+
+        var result = await commandHandler.Handle(command);
+        return result.ToActionResult(ToResponse, this);
+    }
+
+    [HttpDelete("{id:Guid}")]
+    [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ActionName("DeleteMember")]
+    public async Task<ActionResult<MemberResponse>> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteMemberCommandHandler commandHandler)
+    {
+        var result = await commandHandler.Handle(new DeleteMemberCommand(id));
+        return result.ToActionResult(ToResponse, this);
+    }
+
+    private static MemberResponse ToResponse(Member member)
+    {
+        return new MemberResponse(
+            member.Id,
+            member.FirstName,
+            member.LastName,
+            member.Email);
     }
 }
