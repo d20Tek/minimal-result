@@ -5,25 +5,11 @@ namespace D20Tek.Patterns.Result;
 
 public class Result<TValue> : Result, IResult<TValue>
 {
-    private readonly TValue? _value;
-
-    public TValue Value
-    {
-        get
-        {
-            if (IsFailure || _value is null)
-            {
-                throw new InvalidOperationException(
-                    "The result value is only valid in a successful result.");
-            }
-
-            return _value;
-        }
-    }
+    public TValue? Value { get; private set; }
 
     protected Result(TValue value)
     {
-        _value = value;
+        Value = value;
         IsFailure = false;
     }
 
@@ -57,13 +43,13 @@ public class Result<TValue> : Result, IResult<TValue>
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure) =>
-        (IsSuccess) ? success(Value) : failure(Errors);
+        (IsSuccess) ? success(Value!) : failure(Errors);
 
     public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
     {
         if (IsSuccess)
         {
-            success(Value);
+            success(Value!);
         }
         else
         {
@@ -77,7 +63,7 @@ public class Result<TValue> : Result, IResult<TValue>
     {
         if (IsSuccess)
         {
-            return await success(Value).ConfigureAwait(false);
+            return await success(Value!).ConfigureAwait(false);
         }
         else
         {
@@ -88,13 +74,13 @@ public class Result<TValue> : Result, IResult<TValue>
     public TResult MatchFirstError<TResult>(
         Func<TValue, TResult> success,
         Func<Error, TResult> failure) =>
-        (IsSuccess) ? success(Value) : failure(Errors.First());
+        (IsSuccess) ? success(Value!) : failure(Errors.First());
 
     public void MatchFirstError(Action<TValue> success, Action<Error> failure)
     {
         if (IsSuccess)
         {
-            success(Value);
+            success(Value!);
         }
         else
         {
@@ -108,7 +94,7 @@ public class Result<TValue> : Result, IResult<TValue>
     {
         if (IsSuccess)
         {
-            return await success(Value).ConfigureAwait(false);
+            return await success(Value!).ConfigureAwait(false);
         }
         else
         {

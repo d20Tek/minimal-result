@@ -99,17 +99,16 @@ public partial class ResultTTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    [ExcludeFromCodeCoverage]
-    public void Result_WithFailure_ValueThrowsException()
+    public void Result_WithFailure_HasNullValue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.NotFound;
 
         // act
-        _ = result.Value;
+        var value = result.Value;
 
         // assert
+        value.Should().BeNull();
     }
 
     private string DefaultSuccessOperation(out bool successOperationCalled)
