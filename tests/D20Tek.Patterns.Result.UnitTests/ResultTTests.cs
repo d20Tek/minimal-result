@@ -18,6 +18,9 @@ public partial class ResultTTests
         public string Message { get; set; } = string.Empty;
     }
 
+    [ExcludeFromCodeCoverage]
+    public record TestResponse(int Status, string Details);
+
     [TestMethod]
     public void ImplicitSuccess_ReturnsIsSuccess_True()
     {
@@ -99,18 +102,52 @@ public partial class ResultTTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    [ExcludeFromCodeCoverage]
-    public void Result_WithFailure_ValueThrowsException()
+    public void Result_WithFailure_HasNullValue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.NotFound;
 
         // act
-        _ = result.Value;
+        var value = result.Value;
 
         // assert
+        value.Should().BeNull();
     }
+
+    [TestMethod]
+    public void MapResult_WithSuccess()
+    {
+        // arrange
+        var entity = new TestEntity { Code = 1001, Message = "another messge" };
+        Result<TestEntity> result = entity;
+
+        // act
+        var mappedResult = result.MapResult(MapEntity);
+
+        // assert
+        mappedResult.ShouldBeSuccess();
+        mappedResult.Value.Should().BeOfType<TestResponse>();
+        var value = mappedResult.Value.As<TestResponse>();
+        value.Should().NotBeNull();
+        value.Status.Should().Be(entity.Code);
+        value.Details.Should().Be(entity.Message);
+    }
+
+    [TestMethod]
+    public void MapResult_WithFailure()
+    {
+        // arrange
+        Result<TestEntity> result = DefaultErrors.Unexpected;
+
+        // act
+        var mappedResult = result.MapResult(MapEntity);
+
+        // assert
+        mappedResult.ShouldBeFailure();
+    }
+
+    private TestResponse MapEntity(TestEntity entity) =>
+        new TestResponse(entity.Code, entity.Message);
 
     private string DefaultSuccessOperation(out bool successOperationCalled)
     {

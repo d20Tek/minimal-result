@@ -1,12 +1,10 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using System.Diagnostics.CodeAnalysis;
+namespace Basic.WebApi.Contracts;
 
-namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
-
-[ExcludeFromCodeCoverage]
-public record TestResponse(int Id, string Message);
-
-[ExcludeFromCodeCoverage]
-public record TestEntity(int Id, string Message, DateTime CreatedDate);
+public sealed record UpdateMemberRequest(
+    Guid Id,
+    string FirstName,
+    string LastName,
+    string Email);
