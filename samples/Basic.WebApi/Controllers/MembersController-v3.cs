@@ -9,34 +9,35 @@ using Samples.Application.Members.Commands.DeleteMember;
 using Samples.Application.Members.Commands.UpdateMember;
 using Samples.Application.Members.Queries.GetMemberByEmail;
 using Samples.Application.Members.Queries.GetMemberById;
-using Samples.Core.Entities;
 
 namespace Basic.WebApi.Controllers;
 
 [Route("api/v3/members")]
 [ApiController]
-public class MembersControllerV3 : ControllerBase
+public sealed class MembersControllerV3 : ControllerBase
 {
     [HttpGet("email/{email}")]
     [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ActionName("GetMemberByEmailv3")]
-    public async Task<Result<Member>> Get(
+    public async Task<Result<MemberResponse>> Get(
         [FromRoute] string email,
         [FromServices] GetMemberByEmailQueryHandler queryHandler)
     {
-        return await queryHandler.Handle(new GetMemberByEmailQuery(email));
+        var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
+        return result.MapResult(MemberMapper.Convert);
     }
 
     [HttpGet("{id:Guid}")]
     [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ActionName("GetMemberByIdv3")]
-    public async Task<Result<Member>> Get(
+    public async Task<Result<MemberResponse>> Get(
         [FromRoute] Guid id,
         [FromServices] GetMemberByIdQueryHandler queryHandler)
     {
-        return await queryHandler.Handle(new GetMemberByIdQuery(id));
+        var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
+        return result.MapResult(MemberMapper.Convert);
     }
 
     [HttpPost]
@@ -44,7 +45,7 @@ public class MembersControllerV3 : ControllerBase
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ActionName("CreateMemberv3")]
-    public async Task<Result<Member>> Post(
+    public async Task<Result<MemberResponse>> Post(
         [FromBody] CreateMemberRequest request,
         [FromServices] CreateMemberCommandHandler commandHandler)
     {
@@ -52,7 +53,8 @@ public class MembersControllerV3 : ControllerBase
             request.FirstName,
             request.LastName,
             request.Email);
-        return await commandHandler.Handle(command);
+        var result = await commandHandler.Handle(command);
+        return result.MapResult(MemberMapper.Convert);
     }
 
     [HttpPut("{id:Guid}")]
@@ -60,7 +62,7 @@ public class MembersControllerV3 : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ActionName("UpdateMemberv3")]
-    public async Task<Result<Member>> Put(
+    public async Task<Result<MemberResponse>> Put(
         [FromRoute] Guid id,
         [FromBody] UpdateMemberRequest request,
         [FromServices] UpdateMemberCommandHandler commandHandler)
@@ -71,17 +73,19 @@ public class MembersControllerV3 : ControllerBase
             request.LastName,
             request.Email);
 
-        return await commandHandler.Handle(command);
+        var result = await commandHandler.Handle(command);
+        return result.MapResult(MemberMapper.Convert);
     }
 
     [HttpDelete("{id:Guid}")]
     [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ActionName("DeleteMemberv3")]
-    public async Task<Result<Member>> Delete(
+    public async Task<Result<MemberResponse>> Delete(
         [FromRoute] Guid id,
         [FromServices] DeleteMemberCommandHandler commandHandler)
     {
-        return await commandHandler.Handle(new DeleteMemberCommand(id));
+        var result = await commandHandler.Handle(new DeleteMemberCommand(id));
+        return result.MapResult(MemberMapper.Convert);
     }
 }

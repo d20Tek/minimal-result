@@ -14,7 +14,7 @@ namespace Basic.WebApi.Controllers;
 
 [Route("api/v2/members")]
 [ApiController]
-public class MembersControllerV2 : ControllerBase
+public sealed class MembersControllerV2 : ControllerBase
 {
     [HttpGet("email/{email}")]
     [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]
@@ -55,7 +55,7 @@ public class MembersControllerV2 : ControllerBase
             request.Email);
         var result = await commandHandler.Handle(command);
 
-        var routeValues = result.IsSuccess ? new { id = result.Value.Id } : null;
+        var routeValues = result.IsSuccess ? new { id = result.Value!.Id } : null;
         return result.ToCreatedActionResult(
             MemberMapper.Convert,
             this,

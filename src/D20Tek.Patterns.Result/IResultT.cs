@@ -7,6 +7,8 @@ public interface IResult<TValue> : IResult
 {
     public TValue? Value { get; }
 
+    public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper);
+
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure);

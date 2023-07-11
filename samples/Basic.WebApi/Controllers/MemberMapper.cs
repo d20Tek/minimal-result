@@ -6,7 +6,7 @@ using Samples.Core.Entities;
 
 namespace Basic.WebApi.Controllers;
 
-internal class MemberMapper
+internal sealed class MemberMapper
 {
     public static MemberResponse Convert(Member member)
     {

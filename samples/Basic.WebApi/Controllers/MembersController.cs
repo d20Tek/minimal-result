@@ -14,7 +14,7 @@ namespace Basic.WebApi.Controllers;
 
 [Route("api/v1/members")]
 [ApiController]
-public class MembersController : ControllerBase
+public sealed class MembersController : ControllerBase
 {
     [HttpGet("email/{email}")]
     [ProducesResponseType(typeof(MemberResponse), StatusCodes.Status200OK)]

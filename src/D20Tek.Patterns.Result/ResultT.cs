@@ -40,6 +40,9 @@ public class Result<TValue> : Result, IResult<TValue>
 
     public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
 
+    public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
+        (IsSuccess) ? mapper(Value!) : Errors.ToArray();
+
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure) =>
