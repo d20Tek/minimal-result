@@ -55,7 +55,7 @@ public sealed class MembersController : ControllerBase
             request.Email);
         var result = await commandHandler.Handle(command);
 
-        var routeValues = result.IsSuccess ? new { id = result.Value.Id } : null;
+        var routeValues = result.IsSuccess ? new { id = result.Value!.Id } : null;
         return result.ToCreatedActionResult(
             MemberMapper.Convert,
             this,

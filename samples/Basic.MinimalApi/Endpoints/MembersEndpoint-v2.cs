@@ -2,7 +2,6 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.MinimalApi.Contracts;
-using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
@@ -13,20 +12,21 @@ using Samples.Core.Entities;
 
 namespace Basic.MinimalApi.Endpoints;
 
-public static class MembersEndpoint
+public static class MembersEndpointV2
 {
-    public static void MapMemberEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapMemberEndpointsV2 (this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/v1/members").WithTags("Members");
+        var group = routes.MapGroup("/api/v2/members")
+                          .WithTags("Members V2");
 
         group.MapGet("/email/{email}", async (
             [FromRoute] string email,
             [FromServices] GetMemberByEmailQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("GetMemberByEmail")
+        .WithName("GetMemberByEmailV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
@@ -36,9 +36,9 @@ public static class MembersEndpoint
             [FromServices] GetMemberByIdQueryHandler queryHandler) =>
         {
             var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("GetMemberById")
+        .WithName("GetMemberByIdV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
@@ -53,10 +53,9 @@ public static class MembersEndpoint
                 request.Email);
             var result = await commandHandler.Handle(command);
 
-            var routeValues = result.IsSuccess ? new { id = result.Value!.Id } : null;
-            return result.ToCreatedApiResult(ToResponse, "GetMemberById", routeValues);
+            return result.MapResult(ToResponse);
         })
-        .WithName("CreateMember")
+        .WithName("CreateMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status409Conflict)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -74,9 +73,9 @@ public static class MembersEndpoint
                 request.Email);
 
             var result = await commandHandler.Handle(command);
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("UpdateMember")
+        .WithName("UpdateMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -87,9 +86,9 @@ public static class MembersEndpoint
             [FromServices] DeleteMemberCommandHandler commandHandler) =>
         {
             var result = await commandHandler.Handle(new DeleteMemberCommand(id));
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("DeleteMember")
+        .WithName("DeleteMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
