@@ -14,7 +14,7 @@ using Moq;
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class HandleResultActionFilterTests
+public class HandleResultFilterTests
 {
     private readonly ResultExtensionsTests.TestController _controller = new();
     private readonly List<IFilterMetadata> _filters = new();
@@ -27,7 +27,7 @@ public class HandleResultActionFilterTests
         // arrange
         var result = new OkResult();
         var executingContext = CreateActionExecutingContext(result);
-        var filter = new HandleResultActionFilter();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuting(executingContext);
@@ -41,7 +41,7 @@ public class HandleResultActionFilterTests
     {
         // arrange
         var executedContext = CreateActionExecutedContext(Result.Success());
-        var filter = new HandleResultActionFilter();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -57,7 +57,7 @@ public class HandleResultActionFilterTests
         // arrange
         var executedContext = CreateActionExecutedContext(DefaultErrors.NotFound);
 
-        var filter = new HandleResultActionFilter();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -74,7 +74,7 @@ public class HandleResultActionFilterTests
     {
         // arrange
         var executedContext = CreateActionExecutedContext(new OkResult());
-        var filter = new HandleResultActionFilter();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -92,7 +92,7 @@ public class HandleResultActionFilterTests
             DefaultErrors.NotFound,
             "controller");
 
-        var filter = new HandleResultActionFilter();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);

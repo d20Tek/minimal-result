@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
 
-public sealed class HandleResultActionFilter<T> : IActionFilter
+public sealed class HandleResultFilter : IActionFilter
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {
@@ -15,12 +15,12 @@ public sealed class HandleResultActionFilter<T> : IActionFilter
     public void OnActionExecuted(ActionExecutedContext context)
     {
         var objRes = context.Result as ObjectResult;
-        if (objRes?.Value is Result<T> result)
+        if (objRes?.Value is IResult result)
         {
             if (context.Controller is ControllerBase controller)
             {
-                var r = result.IsSuccess ? controller.Ok(result.Value)
-                                         : controller.Problem<T>(result.Errors.ToArray());
+                var r = result.IsSuccess ? controller.Ok()
+                                         : controller.Problem<IResult>(result.Errors.ToArray());
                 context.Result = r.ToIActionResult();
             }
         }

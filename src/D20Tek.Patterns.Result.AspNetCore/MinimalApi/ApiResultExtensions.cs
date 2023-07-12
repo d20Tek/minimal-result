@@ -2,7 +2,6 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Http;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Api = Microsoft.AspNetCore.Http;
 
 namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;

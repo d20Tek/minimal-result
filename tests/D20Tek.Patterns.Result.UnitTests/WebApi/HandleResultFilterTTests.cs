@@ -14,7 +14,7 @@ using Moq;
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class HandleResultActionFilterTTests
+public class HandleResultFilterTTests
 {
     private readonly ResultExtensionsTests.TestController _controller = new();
     private readonly List<IFilterMetadata> _filters = new();
@@ -27,7 +27,7 @@ public class HandleResultActionFilterTTests
         // arrange
         var result = new OkResult();
         var executingContext = CreateActionExecutingContext(result);
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter<TestResponse>();
 
         // act
         filter.OnActionExecuting(executingContext);
@@ -43,7 +43,7 @@ public class HandleResultActionFilterTTests
         var response = new TestResponse(30, "testing 1 2 3");
         var result = Result<TestResponse>.Success(response);
         var executedContext = CreateActionExecutedContext(result);
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter<TestResponse>();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -59,7 +59,7 @@ public class HandleResultActionFilterTTests
         // arrange
         var executedContext = CreateActionExecutedContext(DefaultErrors.NotFound);
 
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter<TestResponse>();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -76,7 +76,7 @@ public class HandleResultActionFilterTTests
     {
         // arrange
         var executedContext = CreateActionExecutedContext(new OkResult());
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter<TestResponse>();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -94,7 +94,7 @@ public class HandleResultActionFilterTTests
             DefaultErrors.NotFound,
             "controller");
 
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter<TestResponse>();
 
         // act
         filter.OnActionExecuted(executedContext);

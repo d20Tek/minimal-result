@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.MinimalApi.Contracts;
+using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
@@ -17,7 +18,8 @@ public static class MembersEndpointV2
     public static void MapMemberEndpointsV2 (this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("/api/v2/members")
-                          .WithTags("Members V2");
+                          .WithTags("Members V2")
+                          .AddEndpointFilter<HandleResultEndpointFilter<MemberResponse>>();
 
         group.MapGet("/email/{email}", async (
             [FromRoute] string email,
