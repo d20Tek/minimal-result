@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.WebApi.Contracts;
 using D20Tek.Patterns.Result;
+using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
@@ -14,6 +15,7 @@ namespace Basic.WebApi.Controllers;
 
 [Route("api/v3/members")]
 [ApiController]
+[ServiceFilter(typeof(HandleResultActionFilter<MemberResponse>))]
 public sealed class MembersControllerV3 : ControllerBase
 {
     [HttpGet("email/{email}")]
