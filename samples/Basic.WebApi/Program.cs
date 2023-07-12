@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using Samples.Application;
 using Samples.Infrastructure;
 
@@ -11,6 +12,8 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 
 builder.Services.AddControllers();
+builder.Services.AddScoped(typeof(HandleResultActionFilter<>));
+builder.Services.AddScoped(typeof(HandleResultActionFilter));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
