@@ -1,12 +1,11 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 using Microsoft.AspNetCore.Http;
 
-namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
+namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 
-public sealed class HandleResultEndpointFilter<T> : IEndpointFilter
+public sealed class HandleResultFilter<T> : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(
         EndpointFilterInvocationContext context,
