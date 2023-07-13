@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 namespace D20Tek.Patterns.Result;
 
-public class Result<TValue> : Result, IResult<TValue>
+public class Result<TValue> : Result
 {
     public new TValue Value => 
         ValueOrDefault ??
@@ -52,18 +52,6 @@ public class Result<TValue> : Result, IResult<TValue>
         Func<IEnumerable<Error>, TResult> failure) =>
         (IsSuccess) ? success(Value) : failure(Errors);
 
-    public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
-    {
-        if (IsSuccess)
-        {
-            success(Value);
-        }
-        else
-        {
-            failure(Errors);
-        }
-    }
-
     public async Task<TResult> MatchAsync<TResult>(
         Func<TValue, Task<TResult>> success,
         Func<IEnumerable<Error>, Task<TResult>> failure)
@@ -83,6 +71,46 @@ public class Result<TValue> : Result, IResult<TValue>
         Func<Error, TResult> failure) =>
         (IsSuccess) ? success(Value) : failure(Errors.First());
 
+    public async Task<TResult> MatchFirstErrorAsync<TResult>(
+    Func<TValue, Task<TResult>> success,
+    Func<Error, Task<TResult>> failure)
+    {
+        if (IsSuccess)
+        {
+            return await success(Value).ConfigureAwait(false);
+        }
+        else
+        {
+            return await failure(Errors.First()).ConfigureAwait(false);
+        }
+    }
+
+    public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
+    {
+        if (IsSuccess)
+        {
+            success(Value);
+        }
+        else
+        {
+            failure(Errors);
+        }
+    }
+
+    public async Task MatchAsync(
+        Func<TValue, Task> success,
+        Func<IEnumerable<Error>, Task> failure)
+    {
+        if (IsSuccess)
+        {
+            await success(Value).ConfigureAwait(false);
+        }
+        else
+        {
+            await failure(Errors).ConfigureAwait(false);
+        }
+    }
+
     public void MatchFirstError(Action<TValue> success, Action<Error> failure)
     {
         if (IsSuccess)
@@ -95,17 +123,15 @@ public class Result<TValue> : Result, IResult<TValue>
         }
     }
 
-    public async Task<TResult> MatchFirstErrorAsync<TResult>(
-    Func<TValue, Task<TResult>> success,
-    Func<Error, Task<TResult>> failure)
+    public async Task MatchFirstErrorAsync(Func<TValue, Task> success, Func<Error, Task> failure)
     {
         if (IsSuccess)
         {
-            return await success(Value).ConfigureAwait(false);
+            await success(Value).ConfigureAwait(false);
         }
         else
         {
-            return await failure(Errors.First()).ConfigureAwait(false);
+            await failure(Errors.First()).ConfigureAwait(false);
         }
     }
 }
