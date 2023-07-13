@@ -2,7 +2,6 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
@@ -19,6 +18,8 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeSuccess();
+        result.Value.Should().Be("Ok");
+        result.ValueOrDefault.Should().BeNull();
     }
 
     [TestMethod]
@@ -31,6 +32,8 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeFailure(DefaultErrors.NotFound);
+        result.Value.Should().Be("Failed");
+        result.ValueOrDefault.Should().BeNull();
     }
 
     [TestMethod]
@@ -72,134 +75,5 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeFailure(expectedError);
-    }
-
-    [TestMethod]
-    public void IfFailure_SkipsOperationCall_WhenResultSuccess()
-    {
-        // arrange
-        var result = Result.Success();
-        var operationCalled = false;
-
-        // act
-        result.IfFailure([ExcludeFromCodeCoverage] (errors) => { operationCalled = true; });
-
-        // assert
-        operationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void IfFailure_CallsOperation_WhenResultFailure()
-    {
-        // arrange
-        Result result = DefaultErrors.Conflict;
-        var operationCalled = false;
-
-        // act
-        result.IfFailure(errors => { operationCalled = true; });
-
-        // assert
-        operationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public async Task IfFailureAsync_SkipsOperationCall_WhenResultSuccess()
-    {
-        // arrange
-        var result = Result.Success();
-        var operationCalled = false;
-
-        // act
-        await result.IfFailureAsync([ExcludeFromCodeCoverage] (errors) =>
-        { 
-            operationCalled = true;
-            return Task.CompletedTask;
-        });
-
-        // assert
-        operationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task IfFailureAsync_CallsOperation_WhenResultFailure()
-    {
-        // arrange
-        Result result = DefaultErrors.Conflict;
-        var operationCalled = false;
-
-        // act
-        await result.IfFailureAsync(errors =>
-        {
-            operationCalled = true;
-            return Task.CompletedTask;
-        });
-
-        // assert
-        operationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public void IfSuccess_SkipsOperationCall_WhenResultFailure()
-    {
-        // arrange
-        Result result = DefaultErrors.Conflict;
-        var operationCalled = false;
-
-        // act
-        result.IfSuccess([ExcludeFromCodeCoverage]() => { operationCalled = true; });
-
-        // assert
-        operationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void IfSuccess_CallsOperation_WhenResultSuccess()
-    {
-        // arrange
-        Result result = Result.Success();
-        var operationCalled = false;
-
-        // act
-        result.IfSuccess(() => { operationCalled = true; });
-
-        // assert
-        operationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public async Task IfSuccessAsync_SkipsOperationCall_WhenResultFailure()
-    {
-        // arrange
-        Result result = DefaultErrors.Conflict;
-        var operationCalled = false;
-
-        // act
-        await result.IfSuccessAsync([ExcludeFromCodeCoverage] () =>
-        {
-            operationCalled = true;
-            return Task.CompletedTask;
-        });
-
-        // assert
-        operationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task IfSuccessAsync_CallsOperation_WhenResultSuccess()
-    {
-        // arrange
-        Result result = Result.Success();
-        var operationCalled = false;
-
-        // act
-        await result.IfSuccessAsync(() =>
-        {
-            operationCalled = true;
-            return Task.CompletedTask;
-        });
-
-
-        // assert
-        operationCalled.Should().BeTrue();
     }
 }

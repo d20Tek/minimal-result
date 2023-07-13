@@ -19,6 +19,7 @@ internal static class ResultAssertion
         result.Should().NotBeNull();
         result.IsFailure.Should().BeTrue();
         result.IsSuccess.Should().BeFalse();
+        result.ValueOrDefault.Should().BeNull();
         result.Errors.Should().NotBeNull();
 
         foreach (var error in expectedErrors)

@@ -5,16 +5,36 @@ namespace D20Tek.Patterns.Result;
 
 public class Result : IResult
 {
+    private const string _defaultSuccess = "Ok";
+    private const string _defaultFailed = "Failed";
+
+    private object? _value = null;
     private readonly List<Error> _errors = new();
-
-    public bool IsSuccess => !IsFailure;
-
-    public bool IsFailure { get; protected set; }
 
     public IReadOnlyList<Error> Errors => _errors.AsReadOnly();
 
+    public object Value
+    {
+        get => _value ?? (IsSuccess ? _defaultSuccess : _defaultFailed);
+    }
+
+    public object? ValueOrDefault
+    {
+        get => _value;
+    }
+
+    public bool IsSuccess => !IsFailure;
+
+    public bool IsFailure { get; }
+
     protected Result()
     {
+        IsFailure = false;
+    }
+
+    protected Result(object? value)
+    {
+        _value = value;
         IsFailure = false;
     }
 
@@ -43,36 +63,4 @@ public class Result : IResult
         new Result(DefaultErrors.UnhandledExpection(exception.Message));
 
     public static Result Success() => new Result();
-
-    public void IfFailure(Action<IEnumerable<Error>> failure)
-    {
-        if (IsFailure)
-        {
-            failure(Errors);
-        }
-    }
-
-    public async Task IfFailureAsync(Func<IEnumerable<Error>, Task> failure)
-    {
-        if (IsFailure)
-        {
-            await failure(Errors).ConfigureAwait(false);
-        }
-    }
-
-    public void IfSuccess(Action success)
-    {
-        if (IsSuccess)
-        {
-            success();
-        }
-    }
-
-    public async Task IfSuccessAsync(Func<Task> success)
-    {
-        if (IsSuccess)
-        {
-            await success().ConfigureAwait(false);
-        }
-    }
 }
