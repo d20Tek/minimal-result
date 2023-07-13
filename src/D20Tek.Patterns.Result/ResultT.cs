@@ -5,12 +5,16 @@ namespace D20Tek.Patterns.Result;
 
 public class Result<TValue> : Result, IResult<TValue>
 {
-    public new TValue? Value { get; private set; }
+    public new TValue Value => 
+        ValueOrDefault ??
+        throw new InvalidOperationException("Value should not be null in this instance.");
+
+    public new TValue? ValueOrDefault { get; init; }
 
     protected Result(TValue value)
         : base(value)
     {
-        Value = value;
+        ValueOrDefault = value;
     }
 
     protected Result(Error error)
@@ -41,18 +45,18 @@ public class Result<TValue> : Result, IResult<TValue>
     public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
 
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
-        (IsSuccess) ? mapper(Value!) : Errors.ToArray();
+        (IsSuccess) ? mapper(Value) : Errors.ToArray();
 
     public TResult Match<TResult>(
         Func<TValue, TResult> success,
         Func<IEnumerable<Error>, TResult> failure) =>
-        (IsSuccess) ? success(Value!) : failure(Errors);
+        (IsSuccess) ? success(Value) : failure(Errors);
 
     public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
     {
         if (IsSuccess)
         {
-            success(Value!);
+            success(Value);
         }
         else
         {
@@ -66,7 +70,7 @@ public class Result<TValue> : Result, IResult<TValue>
     {
         if (IsSuccess)
         {
-            return await success(Value!).ConfigureAwait(false);
+            return await success(Value).ConfigureAwait(false);
         }
         else
         {
@@ -77,13 +81,13 @@ public class Result<TValue> : Result, IResult<TValue>
     public TResult MatchFirstError<TResult>(
         Func<TValue, TResult> success,
         Func<Error, TResult> failure) =>
-        (IsSuccess) ? success(Value!) : failure(Errors.First());
+        (IsSuccess) ? success(Value) : failure(Errors.First());
 
     public void MatchFirstError(Action<TValue> success, Action<Error> failure)
     {
         if (IsSuccess)
         {
-            success(Value!);
+            success(Value);
         }
         else
         {
@@ -97,7 +101,7 @@ public class Result<TValue> : Result, IResult<TValue>
     {
         if (IsSuccess)
         {
-            return await success(Value!).ConfigureAwait(false);
+            return await success(Value).ConfigureAwait(false);
         }
         else
         {
