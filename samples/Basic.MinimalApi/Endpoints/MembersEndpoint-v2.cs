@@ -23,9 +23,13 @@ public static class MembersEndpointV2
 
         group.MapGet("/email/{email}", async (
             [FromRoute] string email,
-            [FromServices] GetMemberByEmailQueryHandler queryHandler) =>
+            [FromServices] GetMemberByEmailQueryHandler queryHandler,
+            CancellationToken cancellationToken) =>
         {
-            var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
+            var result = await queryHandler.Handle(
+                new GetMemberByEmailQuery(email),
+                cancellationToken);
+
             return result.MapResult(ToResponse);
         })
         .WithName("GetMemberByEmailV2")
@@ -35,9 +39,10 @@ public static class MembersEndpointV2
 
         group.MapGet("/{id:Guid}", async (
             [FromRoute] Guid id,
-            [FromServices] GetMemberByIdQueryHandler queryHandler) =>
+            [FromServices] GetMemberByIdQueryHandler queryHandler,
+            CancellationToken cancellationToken) =>
         {
-            var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
+            var result = await queryHandler.Handle(new GetMemberByIdQuery(id), cancellationToken);
             return result.MapResult(ToResponse);
         })
         .WithName("GetMemberByIdV2")
@@ -47,13 +52,14 @@ public static class MembersEndpointV2
 
         group.MapPost("/", async (
             [FromBody] CreateMemberRequest request,
-            [FromServices] CreateMemberCommandHandler commandHandler) =>
+            [FromServices] CreateMemberCommandHandler commandHandler,
+            CancellationToken cancellationToken) =>
         {
             var command = new CreateMemberCommand(
                 request.FirstName,
                 request.LastName,
                 request.Email);
-            var result = await commandHandler.Handle(command);
+            var result = await commandHandler.Handle(command, cancellationToken);
 
             return result.MapResult(ToResponse);
         })
@@ -66,7 +72,8 @@ public static class MembersEndpointV2
         group.MapPut("/{id:Guid}", async (
             [FromRoute] Guid id,
             [FromBody] UpdateMemberRequest request,
-            [FromServices] UpdateMemberCommandHandler commandHandler) =>
+            [FromServices] UpdateMemberCommandHandler commandHandler,
+            CancellationToken cancellationToken) =>
         {
             var command = new UpdateMemberCommand(
                 id,
@@ -74,7 +81,7 @@ public static class MembersEndpointV2
                 request.LastName,
                 request.Email);
 
-            var result = await commandHandler.Handle(command);
+            var result = await commandHandler.Handle(command, cancellationToken);
             return result.MapResult(ToResponse);
         })
         .WithName("UpdateMemberV2")
@@ -85,9 +92,13 @@ public static class MembersEndpointV2
 
         group.MapDelete("/{id:Guid}", async (
             [FromRoute] Guid id,
-            [FromServices] DeleteMemberCommandHandler commandHandler) =>
+            [FromServices] DeleteMemberCommandHandler commandHandler,
+            CancellationToken cancellationToken) =>
         {
-            var result = await commandHandler.Handle(new DeleteMemberCommand(id));
+            var result = await commandHandler.Handle(
+                new DeleteMemberCommand(id),
+                cancellationToken);
+
             return result.MapResult(ToResponse);
         })
         .WithName("DeleteMemberV2")

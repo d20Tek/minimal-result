@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class ActionResultExtensionsTests
+public sealed class ActionResultExtensionsTests
 {
-    private readonly ResultExtensionsTests.TestController _controller = new();
+    private readonly TestController _controller = new();
 
     [TestMethod]
     public void Problem_WithEmptyErrors_ShouldProduceDefaultProblemDetails()

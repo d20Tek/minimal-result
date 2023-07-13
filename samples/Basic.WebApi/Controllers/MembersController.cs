@@ -22,9 +22,13 @@ public sealed class MembersController : ControllerBase
     [ActionName("GetMemberByEmail")]
     public async Task<ActionResult<MemberResponse>> Get(
         [FromRoute] string email,
-        [FromServices] GetMemberByEmailQueryHandler queryHandler)
+        [FromServices] GetMemberByEmailQueryHandler queryHandler,
+        CancellationToken cancellationToken)
     {
-        var result = await queryHandler.Handle(new GetMemberByEmailQuery(email));
+        var result = await queryHandler.Handle(
+            new GetMemberByEmailQuery(email),
+            cancellationToken);
+
         return result.ToActionResult(MemberMapper.Convert, this);
     }
 
@@ -34,9 +38,10 @@ public sealed class MembersController : ControllerBase
     [ActionName("GetMemberById")]
     public async Task<ActionResult<MemberResponse>> Get(
         [FromRoute] Guid id,
-        [FromServices] GetMemberByIdQueryHandler queryHandler)
+        [FromServices] GetMemberByIdQueryHandler queryHandler,
+        CancellationToken cancellationToken)
     {
-        var result = await queryHandler.Handle(new GetMemberByIdQuery(id));
+        var result = await queryHandler.Handle(new GetMemberByIdQuery(id), cancellationToken);
         return result.ToActionResult(MemberMapper.Convert, this);
     }
 
@@ -47,13 +52,14 @@ public sealed class MembersController : ControllerBase
     [ActionName("CreateMember")]
     public async Task<ActionResult<MemberResponse>> Post(
         [FromBody] CreateMemberRequest request,
-        [FromServices] CreateMemberCommandHandler commandHandler)
+        [FromServices] CreateMemberCommandHandler commandHandler,
+        CancellationToken cancellationToken)
     {
         var command = new CreateMemberCommand(
             request.FirstName,
             request.LastName,
             request.Email);
-        var result = await commandHandler.Handle(command);
+        var result = await commandHandler.Handle(command, cancellationToken);
 
         var routeValues = result.IsSuccess ? new { id = result.Value!.Id } : null;
         return result.ToCreatedActionResult(
@@ -71,7 +77,8 @@ public sealed class MembersController : ControllerBase
     public async Task<ActionResult<MemberResponse>> Put(
         [FromRoute] Guid id,
         [FromBody] UpdateMemberRequest request,
-        [FromServices] UpdateMemberCommandHandler commandHandler)
+        [FromServices] UpdateMemberCommandHandler commandHandler,
+        CancellationToken cancellationToken)
     {
         var command = new UpdateMemberCommand(
             id,
@@ -79,7 +86,7 @@ public sealed class MembersController : ControllerBase
             request.LastName,
             request.Email);
 
-        var result = await commandHandler.Handle(command);
+        var result = await commandHandler.Handle(command, cancellationToken);
         return result.ToActionResult(MemberMapper.Convert, this);
     }
 
@@ -89,9 +96,13 @@ public sealed class MembersController : ControllerBase
     [ActionName("DeleteMember")]
     public async Task<ActionResult<MemberResponse>> Delete(
         [FromRoute] Guid id,
-        [FromServices] DeleteMemberCommandHandler commandHandler)
+        [FromServices] DeleteMemberCommandHandler commandHandler,
+        CancellationToken cancellationToken)
     {
-        var result = await commandHandler.Handle(new DeleteMemberCommand(id));
+        var result = await commandHandler.Handle(
+            new DeleteMemberCommand(id),
+            cancellationToken);
+
         return result.ToActionResult(MemberMapper.Convert, this);
     }
 }

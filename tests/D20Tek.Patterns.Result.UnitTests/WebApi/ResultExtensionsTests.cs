@@ -3,14 +3,13 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class ResultExtensionsTests
+public sealed class ResultExtensionsTests
 {
     private readonly TestController _controller = new TestController();
 
@@ -274,10 +273,6 @@ public class ResultExtensionsTests
 
         // assert
         actionResult.ShouldBeProblemResult(StatusCodes.Status404NotFound, error);
-    }
-
-    public class TestController : ControllerBase
-    {
     }
 
     private TestResponse ToResponse(TestEntity entity)

@@ -3,20 +3,18 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using Moq;
 
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class HandleResultFilterTests
+public sealed class HandleResultFilterTests
 {
-    private readonly ResultExtensionsTests.TestController _controller = new();
+    private readonly TestController _controller = new();
     private readonly List<IFilterMetadata> _filters = new();
     private readonly Dictionary<string, object?> _arguments = new();
 

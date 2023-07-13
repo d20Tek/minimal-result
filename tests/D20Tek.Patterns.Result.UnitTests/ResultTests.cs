@@ -2,13 +2,12 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
 [TestClass]
-public class ResultTests
+public sealed class ResultTests
 {
     [TestMethod]
     public void ImplicitSuccess_ReturnsIsSuccess_True()
@@ -39,6 +38,19 @@ public class ResultTests
     {
         // arrange
         var errors = new[] { DefaultErrors.NotFound, DefaultErrors.Conflict };
+
+        // act
+        Result result = errors;
+
+        // assert
+        result.ShouldBeFailure(DefaultErrors.NotFound, DefaultErrors.Conflict);
+    }
+
+    [TestMethod]
+    public void ImplicitErrorsList_ReturnsIsFailure_True()
+    {
+        // arrange
+        var errors = new List<Error> { DefaultErrors.NotFound, DefaultErrors.Conflict };
 
         // act
         Result result = errors;

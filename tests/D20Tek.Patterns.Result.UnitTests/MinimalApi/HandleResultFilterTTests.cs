@@ -3,16 +3,14 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 
 namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
 
 [TestClass]
-public class HandleResultFilterTTests
+public sealed class HandleResultFilterTTests
 {
     private readonly Mock<EndpointFilterInvocationContext> _mockContext = new();
 

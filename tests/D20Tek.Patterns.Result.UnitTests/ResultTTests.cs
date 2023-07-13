@@ -2,13 +2,12 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
 [TestClass]
-public partial class ResultTTests
+public sealed partial class ResultTTests
 {
     [ExcludeFromCodeCoverage]
     public class TestEntity

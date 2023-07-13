@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
 
 [TestClass]
-public class ResultExtensionsTests
+public sealed class ResultExtensionsTests
 {
     [TestMethod]
     public void ToApiResult_WithMappingFunc_ReturnsOK()
@@ -165,7 +165,10 @@ public class ResultExtensionsTests
         var apiResult = modelResult.ToCreatedApiResult(converted, "CreateTest", new { id = 201 });
 
         // assert
-        apiResult.ShouldBeProblemResult(StatusCodes.Status422UnprocessableEntity, "Unprocessable Entity", error);
+        apiResult.ShouldBeProblemResult(
+            StatusCodes.Status422UnprocessableEntity,
+            "Unprocessable Entity",
+            error);
     }
 
     [TestMethod]

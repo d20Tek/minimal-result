@@ -1,7 +1,6 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;
 using Samples.Application.Members.Commands.UpdateMember;

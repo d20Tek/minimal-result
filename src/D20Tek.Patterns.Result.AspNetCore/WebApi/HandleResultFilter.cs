@@ -20,7 +20,7 @@ public sealed class HandleResultFilter : IActionFilter
             if (context.Controller is ControllerBase controller)
             {
                 var r = result.IsSuccess ? controller.Ok()
-                                         : controller.Problem<IResult>(result.Errors.ToArray());
+                                         : controller.Problem<IResult>(result.Errors);
                 context.Result = r.ToIActionResult();
             }
         }
