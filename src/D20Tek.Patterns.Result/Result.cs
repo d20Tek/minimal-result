@@ -36,6 +36,9 @@ public class Result : IResult
     public static implicit operator Result(Error[] errors) =>
         new Result(errors);
 
+    public static implicit operator Result(List<Error> errors) =>
+        new Result(errors);
+
     public static implicit operator Result(Exception exception) =>
         new Result(DefaultErrors.UnhandledExpection(exception.Message));
 

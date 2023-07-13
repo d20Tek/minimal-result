@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
 
 [TestClass]
-public class ApiResultExtensionsTests
+public sealed class ApiResultExtensionsTests
 {
     [TestMethod]
     public void Problem_WithEmptyErrors_ShouldProduceDefaultProblemDetails()

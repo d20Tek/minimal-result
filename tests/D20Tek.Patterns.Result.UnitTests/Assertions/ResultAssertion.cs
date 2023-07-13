@@ -1,8 +1,6 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using FluentAssertions;
-
 namespace D20Tek.Patterns.Result.UnitTests.Assertions;
 
 internal static class ResultAssertion

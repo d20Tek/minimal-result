@@ -1,12 +1,11 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using FluentAssertions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
-public partial class ResultTTests
+public sealed partial class ResultTTests
 {
     [TestMethod]
     public void Match_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
@@ -18,7 +17,8 @@ public partial class ResultTTests
         // act
         var newResult = result.Match(
             val => DefaultSuccessOperation(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (errors) => DefaultFailureOperation(out failureOperationCalled));
+            [ExcludeFromCodeCoverage] (errors) =>
+                DefaultFailureOperation(out failureOperationCalled));
 
         // assert
         newResult.Should().Be("ok");
@@ -100,7 +100,11 @@ public partial class ResultTTests
     public void MatchFirstError_OnlyCallsFailureOperation_WhenIsFailureTrue()
     {
         // arrange
-        Result<TestEntity> result = new Error[] { DefaultErrors.Conflict, DefaultErrors.Unauthorized };
+        Result<TestEntity> result = new Error[]
+        {
+            DefaultErrors.Conflict,
+            DefaultErrors.Unauthorized
+        };
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act

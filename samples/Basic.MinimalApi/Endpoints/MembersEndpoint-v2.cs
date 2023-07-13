@@ -13,11 +13,13 @@ using Samples.Core.Entities;
 
 namespace Basic.MinimalApi.Endpoints;
 
-public static class MembersEndpoint
+public static class MembersEndpointV2
 {
-    public static void MapMemberEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapMemberEndpointsV2 (this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/v1/members").WithTags("Members");
+        var group = routes.MapGroup("/api/v2/members")
+                          .WithTags("Members V2")
+                          .AddEndpointFilter<HandleResultFilter<MemberResponse>>();
 
         group.MapGet("/email/{email}", async (
             [FromRoute] string email,
@@ -28,9 +30,9 @@ public static class MembersEndpoint
                 new GetMemberByEmailQuery(email),
                 cancellationToken);
 
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("GetMemberByEmail")
+        .WithName("GetMemberByEmailV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
@@ -41,9 +43,9 @@ public static class MembersEndpoint
             CancellationToken cancellationToken) =>
         {
             var result = await queryHandler.Handle(new GetMemberByIdQuery(id), cancellationToken);
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("GetMemberById")
+        .WithName("GetMemberByIdV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();
@@ -59,10 +61,9 @@ public static class MembersEndpoint
                 request.Email);
             var result = await commandHandler.Handle(command, cancellationToken);
 
-            var routeValues = result.IsSuccess ? new { id = result.Value!.Id } : null;
-            return result.ToCreatedApiResult(ToResponse, "GetMemberById", routeValues);
+            return result.MapResult(ToResponse);
         })
-        .WithName("CreateMember")
+        .WithName("CreateMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status409Conflict)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -81,9 +82,9 @@ public static class MembersEndpoint
                 request.Email);
 
             var result = await commandHandler.Handle(command, cancellationToken);
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("UpdateMember")
+        .WithName("UpdateMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -98,9 +99,9 @@ public static class MembersEndpoint
                 new DeleteMemberCommand(id),
                 cancellationToken);
 
-            return result.ToApiResult(ToResponse);
+            return result.MapResult(ToResponse);
         })
-        .WithName("DeleteMember")
+        .WithName("DeleteMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithOpenApi();

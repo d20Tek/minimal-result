@@ -1,12 +1,11 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using FluentAssertions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
-public partial class ResultTTests
+public sealed partial class ResultTTests
 {
     [TestMethod]
     public async Task MatchAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
@@ -66,7 +65,11 @@ public partial class ResultTTests
     public async Task MatchFirstErrorAsync_OnlyCallsFailureOperation_WhenIsFailureTrue()
     {
         // arrange
-        Result<TestEntity> result = new Error[] { DefaultErrors.Conflict, DefaultErrors.Unauthorized };
+        Result<TestEntity> result = new Error[]
+        {
+            DefaultErrors.Conflict,
+            DefaultErrors.Unauthorized
+        };
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act

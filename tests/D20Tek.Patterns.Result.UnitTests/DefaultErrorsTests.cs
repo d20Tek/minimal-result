@@ -1,9 +1,12 @@
-﻿using D20Tek.Patterns.Result.UnitTests.Assertions;
+﻿//---------------------------------------------------------------------------------------------------------------------
+// Copyright (c) d20Tek.  All rights reserved.
+//---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Patterns.Result.UnitTests.Assertions;
 
 namespace D20Tek.Patterns.Result.UnitTests;
 
 [TestClass]
-public class DefaultErrorsTests
+public sealed class DefaultErrorsTests
 {
     [TestMethod]
     public void FactoryMethod_ShouldCreate_UnhandledExceptionError()

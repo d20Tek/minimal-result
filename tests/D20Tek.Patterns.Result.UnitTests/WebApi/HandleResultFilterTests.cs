@@ -3,20 +3,18 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Patterns.Result.AspNetCore.WebApi;
 using D20Tek.Patterns.Result.UnitTests.Assertions;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using Moq;
 
 namespace D20Tek.Patterns.Result.UnitTests.WebApi;
 
 [TestClass]
-public class HandleResultActionFilterTTests
+public sealed class HandleResultFilterTests
 {
-    private readonly ResultExtensionsTests.TestController _controller = new();
+    private readonly TestController _controller = new();
     private readonly List<IFilterMetadata> _filters = new();
     private readonly Dictionary<string, object?> _arguments = new();
 
@@ -27,7 +25,7 @@ public class HandleResultActionFilterTTests
         // arrange
         var result = new OkResult();
         var executingContext = CreateActionExecutingContext(result);
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuting(executingContext);
@@ -40,17 +38,15 @@ public class HandleResultActionFilterTTests
     public void OnActionExecuted_WithSuccessResult_ReturnsOK()
     {
         // arrange
-        var response = new TestResponse(30, "testing 1 2 3");
-        var result = Result<TestResponse>.Success(response);
-        var executedContext = CreateActionExecutedContext(result);
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var executedContext = CreateActionExecutedContext(Result.Success());
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
 
         // assert
         executedContext.Result.Should().NotBeNull();
-        executedContext.Result!.ShouldBeOkResult(30, "testing 1 2 3");
+        executedContext.Result.Should().BeOfType<OkResult>();
     }
 
     [TestMethod]
@@ -59,7 +55,7 @@ public class HandleResultActionFilterTTests
         // arrange
         var executedContext = CreateActionExecutedContext(DefaultErrors.NotFound);
 
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -76,7 +72,7 @@ public class HandleResultActionFilterTTests
     {
         // arrange
         var executedContext = CreateActionExecutedContext(new OkResult());
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -94,7 +90,7 @@ public class HandleResultActionFilterTTests
             DefaultErrors.NotFound,
             "controller");
 
-        var filter = new HandleResultActionFilter<TestResponse>();
+        var filter = new HandleResultFilter();
 
         // act
         filter.OnActionExecuted(executedContext);
@@ -105,7 +101,7 @@ public class HandleResultActionFilterTTests
     }
 
     private ActionExecutedContext CreateActionExecutedContext(
-        Result<TestResponse> result,
+        Result result,
         object? controller = null)
     {
         var executedContext = new ActionExecutedContext(

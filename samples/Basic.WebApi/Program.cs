@@ -13,7 +13,7 @@ builder.Services.AddInfrastructureServices();
 
 builder.Services.AddControllers();
 builder.Services.AddScoped(typeof(HandleResultActionFilter<>));
-builder.Services.AddScoped(typeof(HandleResultActionFilter));
+builder.Services.AddScoped(typeof(HandleResultFilter));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

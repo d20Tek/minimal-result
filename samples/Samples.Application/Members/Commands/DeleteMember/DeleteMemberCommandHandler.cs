@@ -21,7 +21,10 @@ public sealed class DeleteMemberCommandHandler
         DeleteMemberCommand command,
         CancellationToken cancellationToken = default)
     {
-        var existingMember = await _memberRepository.GetByIdAsync(command.MemberId, cancellationToken);
+        var existingMember = await _memberRepository.GetByIdAsync(
+            command.MemberId,
+            cancellationToken);
+
         if (existingMember is null)
         {
             return DomainErrors.Member.NotFound(command.MemberId);

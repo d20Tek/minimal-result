@@ -48,7 +48,11 @@ public static class ActionResultExtensions
         string message)
     {
         var ext = CreateErrorsExtension(Error.Custom(errorCode, message, statusCode));
-        return controller.Problem(statusCode: statusCode, detail: message, errorsExtension: ext);
+
+        return controller.Problem(
+            statusCode: statusCode,
+            detail: message,
+            errorsExtension: ext);
     }
 
     public static IActionResult ToIActionResult(this IConvertToActionResult actionResult) =>
@@ -67,7 +71,10 @@ public static class ActionResultExtensions
         int statusCode = MapErrorsToStatusCodes(error);
         var ext = CreateErrorsExtension(errors);
 
-        return controller.Problem(statusCode: statusCode, detail: error.Message, errorsExtension: ext);
+        return controller.Problem(
+            statusCode: statusCode,
+            detail: error.Message,
+            errorsExtension: ext);
     }
 
     private static int MapErrorsToStatusCodes(Error error)

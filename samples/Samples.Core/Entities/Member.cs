@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 namespace Samples.Core.Entities;
 
-public class Member
+public sealed class Member
 {
     public Member(Guid id, string firstName, string lastName, string email)
     {
