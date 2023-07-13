@@ -5,7 +5,7 @@ namespace D20Tek.Patterns.Result;
 
 public interface IResult<TValue> : IResult
 {
-    public TValue? Value { get; }
+    public new TValue? Value { get; }
 
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper);
 

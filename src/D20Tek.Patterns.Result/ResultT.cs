@@ -5,20 +5,20 @@ namespace D20Tek.Patterns.Result;
 
 public class Result<TValue> : Result, IResult<TValue>
 {
-    public TValue? Value { get; private set; }
+    public new TValue? Value { get; private set; }
 
     protected Result(TValue value)
+        : base(value)
     {
         Value = value;
-        IsFailure = false;
     }
 
-    private Result(Error error)
+    protected Result(Error error)
         : base(error)
     {
     }
 
-    private Result(IEnumerable<Error> errors)
+    protected Result(IEnumerable<Error> errors)
         : base(errors)
     {
     }
