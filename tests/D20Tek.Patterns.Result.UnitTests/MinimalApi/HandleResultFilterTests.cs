@@ -33,6 +33,29 @@ public sealed class HandleResultFilterTests
     }
 
     [TestMethod]
+    public async Task TypedOnActionExecuted_WithSuccessResult_ReturnsOK()
+    {
+        // arrange
+        var result = Result<TestResponse>.Success(new TestResponse(1, "two"));
+        var filter = new HandleResultFilter();
+
+        // act
+        var apiResult = await filter.InvokeAsync(
+            _mockContext.Object,
+            (context) => new ValueTask<object?>(result));
+
+        // assert
+        apiResult.Should().NotBeNull();
+        var res = apiResult.As<Ok<object>>();
+        res.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+        var response = res.Value.As<TestResponse>();
+        response.Should().NotBeNull();
+        response.Id.Should().Be(1);
+        response.Message.Should().Be("two");
+    }
+
+    [TestMethod]
     public async Task OnActionExecuted_WithFailureResult_ReturnsProblemDetails()
     {
         // arrange

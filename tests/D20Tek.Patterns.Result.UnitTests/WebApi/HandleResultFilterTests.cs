@@ -50,6 +50,22 @@ public sealed class HandleResultFilterTests
     }
 
     [TestMethod]
+    public void TypedOnActionExecuted_WithSuccessResult_ReturnsOK()
+    {
+        // arrange
+        var result = Result<TestResponse>.Success(new TestResponse(1, "two"));
+        var executedContext = CreateActionExecutedContext(result);
+        var filter = new HandleResultFilter();
+
+        // act
+        filter.OnActionExecuted(executedContext);
+
+        // assert
+        executedContext.Result.Should().NotBeNull();
+        executedContext.Result!.ShouldBeOkResult(1, "two");
+    }
+
+    [TestMethod]
     public void OnActionExecuted_WithFailureResult_ReturnsProblemDetails()
     {
         // arrange

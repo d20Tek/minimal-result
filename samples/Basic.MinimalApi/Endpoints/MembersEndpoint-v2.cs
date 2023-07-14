@@ -19,7 +19,8 @@ public static class MembersEndpointV2
     {
         var group = routes.MapGroup("/api/v2/members")
                           .WithTags("Members V2")
-                          .AddEndpointFilter<HandleResultFilter<MemberResponse>>();
+                          .AddEndpointFilter<HandleTypedResultFilter<MemberResponse>>();
+                          //.AddEndpointFilter<HandleResultFilter>();
 
         group.MapGet("/email/{email}", async (
             [FromRoute] string email,
@@ -64,9 +65,10 @@ public static class MembersEndpointV2
             return result.MapResult(ToResponse);
         })
         .WithName("CreateMemberV2")
+        .Produces<MemberResponse>(StatusCodes.Status200OK)
         .Produces<MemberResponse>(StatusCodes.Status201Created)
-        .ProducesProblem(StatusCodes.Status409Conflict)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .Produces<ProblemDetails>(StatusCodes.Status409Conflict)
+        .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
         group.MapPut("/{id:Guid}", async (
@@ -86,8 +88,8 @@ public static class MembersEndpointV2
         })
         .WithName("UpdateMemberV2")
         .Produces<MemberResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        .Produces<ProblemDetails>(StatusCodes.Status404NotFound)
+        .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
         group.MapDelete("/{id:Guid}", async (

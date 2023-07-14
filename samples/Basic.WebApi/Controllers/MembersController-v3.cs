@@ -15,7 +15,7 @@ namespace Basic.WebApi.Controllers;
 
 [Route("api/v3/members")]
 [ApiController]
-[ServiceFilter(typeof(HandleResultActionFilter<MemberResponse>))]
+[ServiceFilter(typeof(HandleResultFilter))]
 public sealed class MembersControllerV3 : ControllerBase
 {
     [HttpGet("email/{email}")]

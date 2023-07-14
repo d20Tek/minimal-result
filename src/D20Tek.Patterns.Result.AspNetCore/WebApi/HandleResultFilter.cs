@@ -19,9 +19,19 @@ public sealed class HandleResultFilter : IActionFilter
         {
             if (context.Controller is ControllerBase controller)
             {
-                var r = result.IsSuccess ? controller.Ok()
-                                         : controller.Problem<IResult>(result.Errors);
-                context.Result = r.ToIActionResult();
+                ActionResult<IResult> actionResult;
+                if (result.IsSuccess)
+                {
+                    actionResult = result.ValueOrDefault is null
+                        ? controller.Ok()
+                        : controller.Ok(result.ValueOrDefault);
+                }
+                else
+                {
+                    actionResult = controller.Problem<IResult>(result.Errors);
+                }
+
+                context.Result = actionResult.ToIActionResult();
             }
         }
     }

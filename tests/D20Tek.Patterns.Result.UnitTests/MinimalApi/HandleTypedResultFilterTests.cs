@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
 
 [TestClass]
-public sealed class HandleResultFilterTTests
+public sealed class HandleTypedResultFilterTests
 {
     private readonly Mock<EndpointFilterInvocationContext> _mockContext = new();
 
@@ -20,7 +20,7 @@ public sealed class HandleResultFilterTTests
         // arrange
         var response = new TestResponse(12, "foo");
         var result = Result<TestResponse>.Success(response);
-        var filter = new HandleResultFilter<TestResponse>();
+        var filter = new HandleTypedResultFilter<TestResponse>();
 
         // act
         var apiResult = await filter.InvokeAsync(
@@ -38,7 +38,7 @@ public sealed class HandleResultFilterTTests
     {
         // arrange
         Result<TestResponse> result = DefaultErrors.NotFound;
-        var filter = new HandleResultFilter<TestResponse>();
+        var filter = new HandleTypedResultFilter<TestResponse>();
 
         // act
         var apiResult = await filter.InvokeAsync(
@@ -58,7 +58,7 @@ public sealed class HandleResultFilterTTests
     public async Task OnActionExecuted_WithOKResult_RemainsUnchanged()
     {
         // arrange
-        var filter = new HandleResultFilter<TestResponse>();
+        var filter = new HandleTypedResultFilter<TestResponse>();
 
         // act
         var apiResult = await filter.InvokeAsync(

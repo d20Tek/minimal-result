@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 
-public sealed class HandleResultFilter<T> : IEndpointFilter
+public sealed class HandleTypedResultFilter<T> : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(
         EndpointFilterInvocationContext context,
