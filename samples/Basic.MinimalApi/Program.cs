@@ -2,6 +2,8 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.MinimalApi.Endpoints;
+using D20Tek.Patterns.Result;
+using D20Tek.Patterns.Result.AspNetCore;
 using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
 using Samples.Application;
 using Samples.Infrastructure;
@@ -14,6 +16,12 @@ builder.Services.AddInfrastructureServices();
 
 builder.Services.AddScoped(typeof(HandleResultFilter));
 builder.Services.AddScoped(typeof(HandleTypedResultFilter<>));
+
+/* // example of how to configure ErrorTypeMapper
+ErrorTypeMapper.Instance.Configure(config =>
+    config.For(ErrorType.Invalid, System.Net.HttpStatusCode.BadRequest)
+          .Remove(ErrorType.Forbidden));
+*/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

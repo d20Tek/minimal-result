@@ -72,6 +72,6 @@ public static class ResultExtensions
     {
         return result.IsSuccess
             ? Results.Ok()
-            : Results.Extensions.Problem(result.Errors.AsEnumerable());
+            : Results.Extensions.Problem(result.Errors);
     }
 }

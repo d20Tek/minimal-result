@@ -33,7 +33,7 @@ public static class ResultExtensions
     {
         return result.IsSuccess
             ? controller.Ok()
-            : controller.Problem<TResponse>(result.Errors.AsEnumerable());
+            : controller.Problem<TResponse>(result.Errors);
     }
 
     public static ActionResult<TResponse> ToCreatedActionResult<TValue, TResponse>(
