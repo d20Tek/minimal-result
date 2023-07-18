@@ -60,17 +60,7 @@ public static class ApiResultExtensions
 
     private static int MapErrorsToStatusCodes(Error error)
     {
-        return error.Type switch
-        {
-            ErrorType.Conflict => StatusCodes.Status409Conflict,
-            ErrorType.Validation => StatusCodes.Status400BadRequest,
-            ErrorType.Failure => StatusCodes.Status400BadRequest,
-            ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Unauthorized => StatusCodes.Status401Unauthorized,
-            ErrorType.Forbidden => StatusCodes.Status403Forbidden,
-            ErrorType.Invalid => StatusCodes.Status422UnprocessableEntity,
-            _ => StatusCodes.Status500InternalServerError
-        };
+        return (int)ErrorTypeMapper.Instance.Convert(error.Type);
     }
 
     private static Dictionary<string, object?> CreateErrorsExtension(IEnumerable<Error> errors)
