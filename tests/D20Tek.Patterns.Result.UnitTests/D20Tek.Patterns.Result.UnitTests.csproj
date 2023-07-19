@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\D20Tek.Patterns.Result.AspNetCore\D20Tek.Patterns.Result.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\D20Tek.Patterns.Result.Extensions\D20Tek.Patterns.Result.Extensions.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Patterns.Result\D20Tek.Patterns.Result.csproj" />
   </ItemGroup>
 

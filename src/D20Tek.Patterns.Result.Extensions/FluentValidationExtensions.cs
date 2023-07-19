@@ -11,7 +11,7 @@ public static class FluentValidationExtensions
     {
         var errors = validationResult.Errors
             .ConvertAll(validationFalure => Error.Validation(
-                validationFalure.ErrorCode,
+                validationFalure.ErrorCode ?? validationFalure.PropertyName,
                 validationFalure.ErrorMessage));
 
         return errors;

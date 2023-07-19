@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using FluentValidation;
 using MediatR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Patterns.Result.Extensions;
 
@@ -35,6 +36,12 @@ public class ResultValidationBehavior<TRequest, TResponse> :
             return await next();
         }
 
-        return (dynamic)validationResult.ToErrors();
+        return ConvertErrors(validationResult);
+
+        [ExcludeFromCodeCoverage]
+        static TResponse ConvertErrors(FluentValidation.Results.ValidationResult validationResult)
+        {
+            return (dynamic)validationResult.ToErrors();
+        }
     }
 }
