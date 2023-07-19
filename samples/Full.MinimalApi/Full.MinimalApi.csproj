@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\D20Tek.Patterns.Result.Extensions\D20Tek.Patterns.Result.Extensions.csproj" />
     <ProjectReference Include="..\Samples.Application.Mediatr\Samples.Application.Mediatr.csproj" />
     <ProjectReference Include="..\Samples.Infrastructure\Samples.Infrastructure.csproj" />
   </ItemGroup>
