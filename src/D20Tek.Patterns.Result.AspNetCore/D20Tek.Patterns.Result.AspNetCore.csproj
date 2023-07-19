@@ -15,7 +15,7 @@ This is an extension package that's useful in Asp.Net Core project for mapping R
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Result; Result object; Error; Result pattern</PackageTags>
+    <PackageTags>Result; Result object; Error; Result pattern; WebApi; Minimal API</PackageTags>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
