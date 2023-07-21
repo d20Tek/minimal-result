@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="D20Tek.Patterns.Result.Extensions" Version="0.0.15-prerelease" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
     <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\D20Tek.Patterns.Result.Extensions\D20Tek.Patterns.Result.Extensions.csproj" />
     <ProjectReference Include="..\Samples.Core\Samples.Core.csproj" />
   </ItemGroup>
 
