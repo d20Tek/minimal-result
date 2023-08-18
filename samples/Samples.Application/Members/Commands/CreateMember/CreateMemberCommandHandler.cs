@@ -26,10 +26,10 @@ public sealed class CreateMemberCommandHandler
             return DomainErrors.Member.EmailAlreadyInUse;
         }
 
-        var validationErrors = ValidateCommand(command);
-        if (validationErrors.Any())
+        var validationResult = ValidateCommand(command);
+        if (validationResult.IsValid is false)
         {
-            return validationErrors;
+            return validationResult.ToResult<Member>();
         }
 
         var member = new Member(
@@ -43,30 +43,30 @@ public sealed class CreateMemberCommandHandler
         return member;
     }
 
-    private Error[] ValidateCommand(CreateMemberCommand command)
+    private ValidationsResult ValidateCommand(CreateMemberCommand command)
     {
-        var errors = new List<Error>();
+        var vResult = new ValidationsResult();
 
         if (string.IsNullOrWhiteSpace(command.FirstName))
         {
-            errors.Add(DomainErrors.Member.FirstNameEmpty);
+            vResult.AddValidationError(DomainErrors.Member.FirstNameEmpty);
         }
 
         if (string.IsNullOrWhiteSpace(command.LastName))
         {
-            errors.Add(DomainErrors.Member.LastNameEmpty);
+            vResult.AddValidationError(DomainErrors.Member.LastNameEmpty);
         }
 
         if (string.IsNullOrWhiteSpace(command.Email))
         {
-            errors.Add(DomainErrors.Member.EmailEmpty);
+            vResult.AddValidationError(DomainErrors.Member.EmailEmpty);
         }
 
         if (command.Email.Split('@').Length != 2)
         {
-            errors.Add(DomainErrors.Member.EmailInvalidFormat);
+            vResult.AddValidationError(DomainErrors.Member.EmailInvalidFormat);
         }
 
-        return errors.ToArray();
+        return vResult;
     }
 }
