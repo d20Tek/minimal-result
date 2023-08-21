@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Http;
 
-namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;
+namespace D20Tek.Minimal.Result.AspNetCore.MinimalApi;
 
 public sealed class HandleTypedResultFilter<T> : IEndpointFilter
 {

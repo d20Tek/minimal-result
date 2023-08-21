@@ -1,10 +1,10 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.UnitTests.Assertions;
+using D20Tek.Minimal.Result.UnitTests.Assertions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Patterns.Result.UnitTests;
+namespace D20Tek.Minimal.Result.UnitTests;
 
 [TestClass]
 public sealed partial class ResultTTests

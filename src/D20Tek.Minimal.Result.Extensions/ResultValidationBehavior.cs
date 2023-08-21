@@ -5,7 +5,7 @@ using FluentValidation;
 using MediatR;
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Patterns.Result.Extensions;
+namespace D20Tek.Minimal.Result.Extensions;
 
 public class ResultValidationBehavior<TRequest, TResponse> :
     IPipelineBehavior<TRequest, TResponse>

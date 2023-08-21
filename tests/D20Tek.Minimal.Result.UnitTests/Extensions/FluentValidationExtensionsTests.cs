@@ -1,10 +1,10 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.Extensions;
+using D20Tek.Minimal.Result.Extensions;
 using FluentValidation.Results;
 
-namespace D20Tek.Patterns.Result.UnitTests.Extensions;
+namespace D20Tek.Minimal.Result.UnitTests.Extensions;
 
 [TestClass]
 public sealed class FluentValidationExtensionsTests

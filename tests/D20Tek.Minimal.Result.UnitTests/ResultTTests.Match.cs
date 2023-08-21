@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Patterns.Result.UnitTests;
+namespace D20Tek.Minimal.Result.UnitTests;
 
 public sealed partial class ResultTTests
 {

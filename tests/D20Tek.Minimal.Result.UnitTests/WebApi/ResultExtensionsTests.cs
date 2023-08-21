@@ -1,12 +1,12 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.AspNetCore.WebApi;
-using D20Tek.Patterns.Result.UnitTests.Assertions;
+using D20Tek.Minimal.Result.AspNetCore.WebApi;
+using D20Tek.Minimal.Result.UnitTests.Assertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace D20Tek.Patterns.Result.UnitTests.WebApi;
+namespace D20Tek.Minimal.Result.UnitTests.WebApi;
 
 [TestClass]
 public sealed class ResultExtensionsTests

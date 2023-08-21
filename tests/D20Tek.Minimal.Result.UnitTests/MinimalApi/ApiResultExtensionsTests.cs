@@ -1,11 +1,11 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
-using D20Tek.Patterns.Result.UnitTests.Assertions;
+using D20Tek.Minimal.Result.AspNetCore.MinimalApi;
+using D20Tek.Minimal.Result.UnitTests.Assertions;
 using Microsoft.AspNetCore.Http;
 
-namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
+namespace D20Tek.Minimal.Result.UnitTests.MinimalApi;
 
 [TestClass]
 public sealed class ApiResultExtensionsTests

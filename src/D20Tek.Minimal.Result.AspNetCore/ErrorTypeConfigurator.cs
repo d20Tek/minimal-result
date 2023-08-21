@@ -4,7 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
-namespace D20Tek.Patterns.Result.AspNetCore;
+namespace D20Tek.Minimal.Result.AspNetCore;
 
 internal sealed class ErrorTypeConfigurator : IErrorTypeConfigurator
 {

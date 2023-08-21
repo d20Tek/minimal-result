@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Patterns.Result.UnitTests;
+namespace D20Tek.Minimal.Result.UnitTests;
 
 [ExcludeFromCodeCoverage]
 public sealed record TestRequest(int Id) : IRequest<Result<TestResponse>>;

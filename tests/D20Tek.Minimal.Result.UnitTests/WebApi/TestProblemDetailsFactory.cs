@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace D20Tek.Patterns.Result.UnitTests.WebApi;
+namespace D20Tek.Minimal.Result.UnitTests.WebApi;
 
 internal sealed class TestProblemDetailsFactory : ProblemDetailsFactory
 {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
+namespace D20Tek.Minimal.Result.AspNetCore.WebApi;
 
 public static class ActionResultExtensions
 {

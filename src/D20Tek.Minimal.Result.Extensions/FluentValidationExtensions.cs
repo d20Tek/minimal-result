@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using FluentValidation.Results;
 
-namespace D20Tek.Patterns.Result.Extensions;
+namespace D20Tek.Minimal.Result.Extensions;
 
 public static class FluentValidationExtensions
 {

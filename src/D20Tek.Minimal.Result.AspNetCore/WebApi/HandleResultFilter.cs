@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
+namespace D20Tek.Minimal.Result.AspNetCore.WebApi;
 
 public sealed class HandleResultFilter : IActionFilter
 {

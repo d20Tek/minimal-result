@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 
-namespace D20Tek.Patterns.Result.AspNetCore.WebApi;
+namespace D20Tek.Minimal.Result.AspNetCore.WebApi;
 
 public static class ResultExtensions
 {

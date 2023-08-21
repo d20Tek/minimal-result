@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Http;
 using Api = Microsoft.AspNetCore.Http;
 
-namespace D20Tek.Patterns.Result.AspNetCore.MinimalApi;
+namespace D20Tek.Minimal.Result.AspNetCore.MinimalApi;
 
 public static class ApiResultExtensions
 {

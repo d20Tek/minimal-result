@@ -1,10 +1,10 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.AspNetCore;
+using D20Tek.Minimal.Result.AspNetCore;
 using System.Net;
 
-namespace D20Tek.Patterns.Result.UnitTests.MinimalApi;
+namespace D20Tek.Minimal.Result.UnitTests.MinimalApi;
 
 [TestClass]
 public class ErrorTypeConfiguratorTests

@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace D20Tek.Patterns.Result.UnitTests.Assertions;
+namespace D20Tek.Minimal.Result.UnitTests.Assertions;
 
 internal static class ActionResultAssertion
 {

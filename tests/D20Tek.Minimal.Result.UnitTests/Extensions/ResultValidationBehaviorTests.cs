@@ -1,15 +1,11 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.Extensions;
+using D20Tek.Minimal.Result.Extensions;
 using FluentValidation;
-using FluentValidation.Results;
-using MediatR;
-using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-namespace D20Tek.Patterns.Result.UnitTests.Extensions;
+namespace D20Tek.Minimal.Result.UnitTests.Extensions;
 
 [TestClass]
 public sealed class ResultValidationBehaviorTests
