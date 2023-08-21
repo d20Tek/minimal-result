@@ -2,8 +2,8 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.WebApi.Contracts;
-using D20Tek.Patterns.Result;
-using D20Tek.Patterns.Result.AspNetCore.WebApi;
+using D20Tek.Minimal.Result;
+using D20Tek.Minimal.Result.AspNetCore.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using Samples.Application.Members.Commands.CreateMember;
 using Samples.Application.Members.Commands.DeleteMember;

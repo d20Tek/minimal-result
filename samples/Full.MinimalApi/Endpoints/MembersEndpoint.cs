@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
+using D20Tek.Minimal.Result.AspNetCore.MinimalApi;
 using Full.MinimalApi.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -2,9 +2,9 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Basic.MinimalApi.Endpoints;
-using D20Tek.Patterns.Result;
-using D20Tek.Patterns.Result.AspNetCore;
-using D20Tek.Patterns.Result.AspNetCore.MinimalApi;
+using D20Tek.Minimal.Result;
+using D20Tek.Minimal.Result.AspNetCore;
+using D20Tek.Minimal.Result.AspNetCore.MinimalApi;
 using Samples.Application;
 using Samples.Infrastructure;
 

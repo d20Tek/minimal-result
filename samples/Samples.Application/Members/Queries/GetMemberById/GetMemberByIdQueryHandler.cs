@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Patterns.Result;
+using D20Tek.Minimal.Result;
 using Samples.Core.Abstractions;
 using Samples.Core.Entities;
 using Samples.Core.Errors;

@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Patterns.Result.AspNetCore" Version="0.0.17-prerelease" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\D20Tek.Minimal.Result.AspNetCore\D20Tek.Minimal.Result.AspNetCore.csproj" />
     <ProjectReference Include="..\Samples.Application.Mediatr\Samples.Application.Mediatr.csproj" />
     <ProjectReference Include="..\Samples.Infrastructure\Samples.Infrastructure.csproj" />
   </ItemGroup>
