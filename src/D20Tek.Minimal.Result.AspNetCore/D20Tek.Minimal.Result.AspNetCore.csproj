@@ -11,9 +11,9 @@
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.
 This is an extension package that's useful in Asp.Net Core project for mapping Results to Minimal Api IResult and Controller-based IActionResult.</Description>
     <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/d20Tek/minimal-result</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
+    <RepositoryUrl>https://github.com/d20Tek/minimal-result</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Result; Result object; Error; Result pattern; WebApi; Minimal API</PackageTags>
   </PropertyGroup>

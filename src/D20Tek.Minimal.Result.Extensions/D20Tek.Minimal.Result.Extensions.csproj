@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -12,9 +12,9 @@
 
 The Extensions package provides integrations for working seemlessly with Mediator and FluentValidation.</Description>
     <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/d20Tek/minimal-result</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
+    <RepositoryUrl>https://github.com/d20Tek/minimal-result</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Result; Result object; Error; Result pattern; Mediatr; FluentValidation</PackageTags>
   </PropertyGroup>
