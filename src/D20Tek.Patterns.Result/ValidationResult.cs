@@ -50,6 +50,12 @@ public class ValidationsResult
         }
     }
 
+    public static ValidationsResult operator +(ValidationsResult left, ValidationsResult right)
+    {
+        left._errors.AddRange(right._errors);
+        return left;
+    }
+
     private void GuardInvalidErrorObject(Error error)
     {
         ArgumentNullException.ThrowIfNull(error);

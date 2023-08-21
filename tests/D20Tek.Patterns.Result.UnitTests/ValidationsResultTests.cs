@@ -75,6 +75,28 @@ public class ValidationsResultTests
     }
 
     [TestMethod]
+    public void AddOperation_WithErrors_AddsToErrorList()
+    {
+        // arrange
+        var error = CreateValidationError();
+        var vResult = new ValidationsResult();
+        vResult.AddValidationError(error);
+
+        var error2 = CreateValidationError("foo", "bar");
+        var v2 = new ValidationsResult();
+        v2.AddValidationError(error2);
+
+        // act
+        vResult += v2;
+
+        // assert
+        vResult.Errors.Should().NotBeEmpty();
+        vResult.Errors.Should().HaveCount(2);
+        vResult.Errors.Should().Contain(error);
+        vResult.Errors.Should().Contain(error2);
+    }
+
+    [TestMethod]
     [ExcludeFromCodeCoverage]
     [ExpectedException(typeof(InvalidOperationException))]
     public void AddValidationError_WithUnexpectedError_ThrowsInvalidOperationException()
