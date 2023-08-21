@@ -1,23 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>D20Tek.Patterns.Result.Extensions</Title>
-    <Version>0.0.17-prerelease</Version>
+    <Version>0.1.3-prerelease</Version>
+    <Title>D20Tek.Minimal.Result.AspNetCore</Title>
     <Company>d20Tek</Company>
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.
-
-The Extensions package provides integrations for working seemlessly with Mediator and FluentValidation.</Description>
+This is an extension package that's useful in Asp.Net Core project for mapping Results to Minimal Api IResult and Controller-based IActionResult.</Description>
     <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/d20Tek/patterns-result</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>Result; Result object; Error; Result pattern; Mediatr; FluentValidation</PackageTags>
+    <RepositoryUrl>https://github.com/d20Tek/patterns-result</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Result; Result object; Error; Result pattern; WebApi; Minimal API</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\README.md">
@@ -25,14 +28,9 @@ The Extensions package provides integrations for working seemlessly with Mediato
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+	
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\D20Tek.Patterns.Result\D20Tek.Patterns.Result.csproj" />
+    <ProjectReference Include="..\D20Tek.Minimal.Result\D20Tek.Minimal.Result.csproj" />
   </ItemGroup>
 
 </Project>
