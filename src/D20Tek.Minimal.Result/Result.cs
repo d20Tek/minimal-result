@@ -13,6 +13,8 @@ public class Result : IResult
 
     public IReadOnlyList<Error> Errors => _errors.AsReadOnly();
 
+    public List<Error> ErrorsList => _errors;
+
     public object Value
     {
         get => _value ?? (IsSuccess ? _defaultSuccess : _defaultFailed);

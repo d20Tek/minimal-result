@@ -47,6 +47,7 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeFailure(DefaultErrors.NotFound, DefaultErrors.Conflict);
+        result.ErrorsList.Should().BeEquivalentTo(errors);
     }
 
     [TestMethod]
