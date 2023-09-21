@@ -47,6 +47,7 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeFailure(DefaultErrors.NotFound, DefaultErrors.Conflict);
+        result.ErrorsList.Should().BeEquivalentTo(errors);
     }
 
     [TestMethod]
@@ -75,5 +76,37 @@ public sealed class ResultTests
 
         // assert
         result.ShouldBeFailure(expectedError);
+    }
+
+    [TestMethod]
+    public void ToString_WithSuccessfulResult_ReturnsSuccessValue()
+    {
+        // arrange
+        var result = Result.Success();
+
+        // act
+        var text = result.ToString();
+
+        // assert
+        text.Should().Be("Result [Success]: Value = Ok");
+    }
+
+    [TestMethod]
+    public void ToString_WithErrors_ReturnsFailureAndErrorsList()
+    {
+        // arrange
+        var expected =
+@"Result: [Failure]): Errors = 
+ - Error (General.NotFound [3]): Not found error has occurred.
+ - Error (General.Conflict [4]): A conflict error has occurred.";
+
+        var errors = new[] { DefaultErrors.NotFound, DefaultErrors.Conflict };
+        Result result = errors;
+
+        // act
+        var text = result.ToString();
+
+        // assert
+        text.Should().Be(expected);
     }
 }

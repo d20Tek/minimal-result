@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using FluentValidation;
+using Fvr = FluentValidation.Results;
 using MediatR;
 using System.Diagnostics.CodeAnalysis;
 
@@ -39,7 +40,7 @@ public class ResultValidationBehavior<TRequest, TResponse> :
         return ConvertErrors(validationResult);
 
         [ExcludeFromCodeCoverage]
-        static TResponse ConvertErrors(FluentValidation.Results.ValidationResult validationResult)
+        static TResponse ConvertErrors(Fvr.ValidationResult validationResult)
         {
             return (dynamic)validationResult.ToErrors();
         }

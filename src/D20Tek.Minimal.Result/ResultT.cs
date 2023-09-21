@@ -45,7 +45,7 @@ public class Result<TValue> : Result
     public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
 
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
-        (IsSuccess) ? mapper(Value) : Errors.ToArray();
+        (IsSuccess) ? mapper(Value) : ErrorsList;
 
     public TResult Match<TResult>(
         Func<TValue, TResult> success,

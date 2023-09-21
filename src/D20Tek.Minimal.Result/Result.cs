@@ -13,6 +13,8 @@ public class Result : IResult
 
     public IReadOnlyList<Error> Errors => _errors.AsReadOnly();
 
+    public List<Error> ErrorsList => _errors;
+
     public object Value
     {
         get => _value ?? (IsSuccess ? _defaultSuccess : _defaultFailed);
@@ -63,4 +65,20 @@ public class Result : IResult
         new Result(DefaultErrors.UnhandledExpection(exception.Message));
 
     public static Result Success() => new Result();
+
+    public override string ToString()
+    {
+        var text = string.Empty;
+        if (IsSuccess)
+        {
+            text += $"Result [Success]: Value = {Value}";
+        }
+        else
+        {
+            text += $"Result: [Failure]): Errors = {Environment.NewLine}";
+            text += " - ";
+            text += string.Join($"{Environment.NewLine} - ", _errors);
+        }
+        return text;
+    }
 }
