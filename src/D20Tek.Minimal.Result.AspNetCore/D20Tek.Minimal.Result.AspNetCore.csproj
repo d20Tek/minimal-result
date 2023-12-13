@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.1.4-prerelease</Version>
+    <Version>0.1.8-prerelease</Version>
     <Title>D20Tek.Minimal.Result.AspNetCore</Title>
     <Company>d20Tek</Company>
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.
@@ -18,7 +18,7 @@ This is an extension package that's useful in Asp.Net Core project for mapping R
     <PackageTags>Result; Result object; Error; Result pattern; WebApi; Minimal API</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+  <ItemGroup Condition="$(TargetFramework) == 'net8.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

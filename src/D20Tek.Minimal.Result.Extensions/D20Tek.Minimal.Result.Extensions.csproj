@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>D20Tek.Minimal.Result.Extensions</Title>
-    <Version>0.1.4-prerelease</Version>
+    <Version>0.1.8-prerelease</Version>
     <Company>d20Tek</Company>
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.
 
@@ -27,8 +27,8 @@ The Extensions package provides integrations for working seemlessly with Mediato
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
   <ItemGroup>
