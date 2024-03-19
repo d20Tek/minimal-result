@@ -52,7 +52,7 @@ public sealed class DefaultErrorsTests
     public void FactoryMethod_ShouldCreate_UnhandledExpectionError()
     {
         PerformErrorTest(
-            "General.UnhandledException",
+            "General.Exception",
             "An unhandled exception has occurred.",
             ErrorType.Unexpected,
             DefaultErrors.UnhandledExpection);

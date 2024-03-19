@@ -44,6 +44,17 @@ public class Result<TValue> : Result
 
     public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
 
+    public Result<TOther> ToErrorResult<TOther>()
+        where TOther : class
+    {
+        if (IsSuccess)
+        {
+            throw new InvalidOperationException();
+        }
+
+        return ErrorsList;
+    }
+
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
         (IsSuccess) ? mapper(Value) : ErrorsList;
 
