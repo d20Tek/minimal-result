@@ -77,7 +77,7 @@ public sealed partial class ResultTTests
     {
         // arrange
         var ex = new ArgumentOutOfRangeException("Test exception.");
-        var expected = Error.Custom("General.UnhandledException", ex.Message, ErrorType.Unexpected);
+        var expected = Error.Custom("General.Exception", ex.Message, ErrorType.Unexpected);
 
         // act
         Result<TestEntity> result = ex;
@@ -144,6 +144,33 @@ public sealed partial class ResultTTests
 
         // assert
         mappedResult.ShouldBeFailure();
+    }
+
+    [TestMethod]
+    public void ToErrorResult_WithFailure()
+    {
+        // arrange
+        Result<int> start = DefaultErrors.Unexpected;
+
+        // act
+        var result = start.ToErrorResult<TestEntity>();
+
+        // assert
+        result.ShouldBeFailure();
+    }
+
+    [TestMethod]
+    [ExcludeFromCodeCoverage]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void ToErrorResult_WithSuccess_ThrowsException()
+    {
+        // arrange
+        Result<int> start = 42;
+
+        // act
+        _ = start.ToErrorResult<TestEntity>();
+
+        // assert
     }
 
     private TestResponse MapEntity(TestEntity entity) =>

@@ -69,7 +69,7 @@ public sealed class ResultTests
         // arrange
         var msg = "test exception message.";
         var ex = new ArgumentException(msg);
-        var expectedError = Error.Unexpected("General.UnhandledException", msg);
+        var expectedError = Error.Unexpected("General.Exception", msg);
 
         // act
         Result result = ex;

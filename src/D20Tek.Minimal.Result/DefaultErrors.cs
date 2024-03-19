@@ -6,7 +6,7 @@ namespace D20Tek.Minimal.Result;
 public static class DefaultErrors
 {
     public static Error UnhandledExpection(string message) =>
-        Error.Custom("General.UnhandledException", message, ErrorType.Unexpected);
+        Error.Custom("General.Exception", message, ErrorType.Unexpected);
 
     public static readonly Error Unexpected =
         Error.Unexpected("General.Unexpected", "An unexpected error has occurred.");
