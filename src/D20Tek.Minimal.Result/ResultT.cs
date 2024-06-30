@@ -58,45 +58,19 @@ public class Result<TValue> : Result
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
         (IsSuccess) ? mapper(Value) : ErrorsList;
 
-    public TResult Match<TResult>(
+    public TResult IfOrElse<TResult>(
         Func<TValue, TResult> success,
-        Func<IEnumerable<Error>, TResult> failure) =>
-        (IsSuccess) ? success(Value) : failure(Errors);
-
-    public async Task<TResult> MatchAsync<TResult>(
-        Func<TValue, Task<TResult>> success,
-        Func<IEnumerable<Error>, Task<TResult>> failure)
+        Func<IEnumerable<Error>, TResult> failure)
     {
         if (IsSuccess)
         {
-            return await success(Value).ConfigureAwait(false);
+            return success(Value);
         }
-        else
-        {
-            return await failure(Errors).ConfigureAwait(false);
-        }
+
+        return failure(Errors);
     }
 
-    public TResult MatchFirstError<TResult>(
-        Func<TValue, TResult> success,
-        Func<Error, TResult> failure) =>
-        (IsSuccess) ? success(Value) : failure(Errors.First());
-
-    public async Task<TResult> MatchFirstErrorAsync<TResult>(
-    Func<TValue, Task<TResult>> success,
-    Func<Error, Task<TResult>> failure)
-    {
-        if (IsSuccess)
-        {
-            return await success(Value).ConfigureAwait(false);
-        }
-        else
-        {
-            return await failure(Errors.First()).ConfigureAwait(false);
-        }
-    }
-
-    public void Match(Action<TValue> success, Action<IEnumerable<Error>> failure)
+    public void IfOrElse(Action<TValue> success, Action<IEnumerable<Error>> failure)
     {
         if (IsSuccess)
         {
@@ -105,44 +79,6 @@ public class Result<TValue> : Result
         else
         {
             failure(Errors);
-        }
-    }
-
-    public async Task MatchAsync(
-        Func<TValue, Task> success,
-        Func<IEnumerable<Error>, Task> failure)
-    {
-        if (IsSuccess)
-        {
-            await success(Value).ConfigureAwait(false);
-        }
-        else
-        {
-            await failure(Errors).ConfigureAwait(false);
-        }
-    }
-
-    public void MatchFirstError(Action<TValue> success, Action<Error> failure)
-    {
-        if (IsSuccess)
-        {
-            success(Value);
-        }
-        else
-        {
-            failure(Errors.First());
-        }
-    }
-
-    public async Task MatchFirstErrorAsync(Func<TValue, Task> success, Func<Error, Task> failure)
-    {
-        if (IsSuccess)
-        {
-            await success(Value).ConfigureAwait(false);
-        }
-        else
-        {
-            await failure(Errors.First()).ConfigureAwait(false);
         }
     }
 }

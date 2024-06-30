@@ -15,7 +15,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = result.Match(
+        var newResult = result.IfOrElse(
             val => DefaultSuccessOperation(out successOperationCalled),
             [ExcludeFromCodeCoverage] (errors) =>
                 DefaultFailureOperation(out failureOperationCalled));
@@ -34,7 +34,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = result.Match(
+        var newResult = result.IfOrElse(
             [ExcludeFromCodeCoverage] (val) => DefaultSuccessOperation(out successOperationCalled),
             errors => DefaultFailureOperation(out failureOperationCalled));
 
@@ -52,7 +52,7 @@ public sealed partial class ResultTTests
         bool successActionCalled = false, failureActionCalled = false;
 
         // act
-        result.Match(
+        result.IfOrElse(
             val => DefaultSuccessAction(out successActionCalled),
             [ExcludeFromCodeCoverage] (errors) => DefaultFailureAction(out failureActionCalled));
 
@@ -69,83 +69,9 @@ public sealed partial class ResultTTests
         bool successActionCalled = false, failureActionCalled = false;
 
         // act
-        result.Match(
+        result.IfOrElse(
             [ExcludeFromCodeCoverage] (val) => DefaultSuccessAction(out successActionCalled),
             errors => DefaultFailureAction(out failureActionCalled));
-
-        // assert
-        successActionCalled.Should().BeFalse();
-        failureActionCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public void MatchFirstError_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.MatchFirstError(
-            val => DefaultSuccessOperation(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (error) => default!);
-
-        // assert
-        newResult.Should().Be("ok");
-        successOperationCalled.Should().BeTrue();
-        failureOperationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void MatchFirstError_OnlyCallsFailureOperation_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = new Error[]
-        {
-            DefaultErrors.Conflict,
-            DefaultErrors.Unauthorized
-        };
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = result.MatchFirstError(
-            [ExcludeFromCodeCoverage] (val) => default!,
-            error => DefaultFailureOperation(error, out failureOperationCalled));
-
-        // assert
-        newResult.Should().Be("problem");
-        successOperationCalled.Should().BeFalse();
-        failureOperationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public void MatchFirstErrorAction_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successActionCalled = false, failureActionCalled = false;
-
-        // act
-        result.MatchFirstError(
-            val => DefaultSuccessOperation(out successActionCalled),
-            [ExcludeFromCodeCoverage] (error) => DefaultFailureAction(error, out failureActionCalled));
-
-        // assert
-        successActionCalled.Should().BeTrue();
-        failureActionCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public void MatchFirstErrorAction_OnlyCallsFailureOperation_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = new Error[] { DefaultErrors.Conflict, DefaultErrors.Unauthorized };
-        bool successActionCalled = false, failureActionCalled = false;
-
-        // act
-        result.MatchFirstError(
-            [ExcludeFromCodeCoverage] (val) => DefaultSuccessOperation(out successActionCalled),
-            error => DefaultFailureAction(error, out failureActionCalled));
 
         // assert
         successActionCalled.Should().BeFalse();

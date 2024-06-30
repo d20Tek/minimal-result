@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>0.1.10-prerelease</Version>
+    <Version>1.0.1</Version>
     <Title>D20Tek.Minimal.Result.AspNetCore</Title>
     <Company>d20Tek</Company>
     <Description>A straightforward implementation of the Result object pattern. Used to return a monad result that will either be the returned value or a set of errors.

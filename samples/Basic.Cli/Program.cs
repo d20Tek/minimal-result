@@ -36,16 +36,16 @@ static async Task<Guid> CreateNewMember(IMemberRepository memberRepository)
     var createHandler = new CreateMemberCommandHandler(memberRepository);
     var createdResult = await createHandler.Handle(new CreateMemberCommand("Foo", "Bar", "foo@bar.com"));
 
-    return createdResult.MatchFirstError(
-        success =>
+    return createdResult.IfOrElse(
+        value =>
         {
             Console.WriteLine("member created successfully!");
-            return success.Id;
+            return value.Id;
         },
-        error =>
+        errors =>
         {
             Console.WriteLine("member creation failed.");
-            Console.WriteLine(error.ToString());
+            Console.WriteLine(errors.First().ToString());
             return Guid.Empty;
         });
 }
@@ -56,15 +56,15 @@ static async Task GetMemberByEmail(IMemberRepository memberRepository)
     var getHandler = new GetMemberByEmailQueryHandler(memberRepository);
     var getResult = await getHandler.Handle(new GetMemberByEmailQuery("foo@bar.com"));
 
-    getResult.MatchFirstError(
-        success =>
+    getResult.IfOrElse(
+        value =>
         {
             Console.WriteLine("member found!");
         },
-        error =>
+        errors =>
         {
             Console.WriteLine("member not found.");
-            Console.WriteLine(error.ToString());
+            Console.WriteLine(errors.First().ToString());
         });
 }
 
@@ -74,15 +74,15 @@ static async Task UpdateMember(IMemberRepository memberRepository, Guid memberId
     var updateHandler = new UpdateMemberCommandHandler(memberRepository);
     var updateResult = await updateHandler.Handle(new UpdateMemberCommand(memberId, "Foo2", "Bar2", "foo@bar.com"));
 
-    updateResult.MatchFirstError(
-        success =>
+    updateResult.IfOrElse(
+        value =>
         {
             Console.WriteLine("member updated successfully!");
         },
-        error =>
+        errors =>
         {
             Console.WriteLine("member update failed.");
-            Console.WriteLine(error.ToString());
+            Console.WriteLine(errors.First().ToString());
         });
 }
 
@@ -92,14 +92,14 @@ static async Task DeleteMember(IMemberRepository memberRepository, Guid memberId
     var deleteHandler = new DeleteMemberCommandHandler(memberRepository);
     var deleteResult = await deleteHandler.Handle(new DeleteMemberCommand(memberId));
 
-    deleteResult.MatchFirstError(
-        success =>
+    deleteResult.IfOrElse(
+        value =>
         {
             Console.WriteLine("member deleted successfully!");
         },
-        error =>
+        errors =>
         {
             Console.WriteLine("member delete failed.");
-            Console.WriteLine(error.ToString());
+            Console.WriteLine(errors.First().ToString());
         });
 }

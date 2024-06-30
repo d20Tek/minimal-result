@@ -12,7 +12,7 @@ public static class ResultExtensions
         this Result<TValue> result,
         Func<TValue, TResponse> responseMap)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.Ok(responseMap(success)),
             errors => Results.Extensions.Problem(errors));
     }
@@ -21,7 +21,7 @@ public static class ResultExtensions
         this Result<TValue> result,
         TResponse response)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.Ok(response),
             errors => Results.Extensions.Problem(errors));
     }
@@ -32,7 +32,7 @@ public static class ResultExtensions
         string? routeName = null,
         object? routeValues = null)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.CreatedAtRoute(responseMap(success), routeName, routeValues),
             errors => Results.Extensions.Problem(errors));
     }
@@ -43,7 +43,7 @@ public static class ResultExtensions
         string? routeName = null,
         object? routeValues = null)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.CreatedAtRoute(response, routeName, routeValues),
             errors => Results.Extensions.Problem(errors));
     }
@@ -53,7 +53,7 @@ public static class ResultExtensions
         Func<TValue, TResponse> responseMap,
         string routeUri)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.Created(routeUri, responseMap(success)),
             errors => Results.Extensions.Problem(errors));
     }
@@ -63,7 +63,7 @@ public static class ResultExtensions
         TResponse response,
         string routeUri)
     {
-        return result.Match<Api.IResult>(
+        return result.IfOrElse<Api.IResult>(
             success => TypedResults.Created(routeUri, response),
             errors => Results.Extensions.Problem(errors));
     }

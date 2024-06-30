@@ -15,7 +15,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = await result.MatchAsync(
+        var newResult = await result.IfOrElse(
             val => DefaultSuccessOperationAsync(out successOperationCalled),
             [ExcludeFromCodeCoverage] (errors) => default!);
 
@@ -33,7 +33,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = await result.MatchAsync(
+        var newResult = await result.IfOrElse(
             [ExcludeFromCodeCoverage] (val) => default!,
             errors => DefaultFailureOperationAsync(out failureOperationCalled));
 
@@ -51,7 +51,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        await result.MatchAsync(
+        await result.IfOrElse(
             val => DefaultSuccessActionAsync(out successOperationCalled),
             [ExcludeFromCodeCoverage] (errors) => default!);
 
@@ -68,87 +68,9 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        await result.MatchAsync(
+        await result.IfOrElse(
             [ExcludeFromCodeCoverage] (val) => default!,
             errors => DefaultFailureActionAsync(out failureOperationCalled));
-
-        // assert
-        successOperationCalled.Should().BeFalse();
-        failureOperationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public async Task MatchFirstErrorAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = await result.MatchFirstErrorAsync(
-            val => DefaultSuccessOperationAsync(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (error) => default!);
-
-        // assert
-        newResult.Should().Be("ok");
-        successOperationCalled.Should().BeTrue();
-        failureOperationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task MatchFirstErrorAsync_OnlyCallsFailureOperation_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = new Error[]
-        {
-            DefaultErrors.Conflict,
-            DefaultErrors.Unauthorized
-        };
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        var newResult = await result.MatchFirstErrorAsync(
-            [ExcludeFromCodeCoverage] (val) => default!,
-            error => DefaultFailureOperationAsync(error, out failureOperationCalled));
-
-        // assert
-        newResult.Should().Be("problem");
-        successOperationCalled.Should().BeFalse();
-        failureOperationCalled.Should().BeTrue();
-    }
-
-    [TestMethod]
-    public async Task MatchFirstErrorAsync_OnlyCallsSuccessAction_WhenIsSuccessTrue()
-    {
-        // arrange
-        Result<TestEntity> result = CreateTestResult();
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        await result.MatchFirstErrorAsync(
-            val => DefaultSuccessActionAsync(out successOperationCalled),
-            [ExcludeFromCodeCoverage] (error) => default!);
-
-        // assert
-        successOperationCalled.Should().BeTrue();
-        failureOperationCalled.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task MatchFirstErrorAsync_OnlyCallsFailureAction_WhenIsFailureTrue()
-    {
-        // arrange
-        Result<TestEntity> result = new Error[]
-        {
-            DefaultErrors.Conflict,
-            DefaultErrors.Unauthorized
-        };
-        bool successOperationCalled = false, failureOperationCalled = false;
-
-        // act
-        await result.MatchFirstErrorAsync(
-            [ExcludeFromCodeCoverage] (val) => default!,
-            error => DefaultFailureActionAsync(error, out failureOperationCalled));
 
         // assert
         successOperationCalled.Should().BeFalse();
