@@ -58,27 +58,59 @@ public class Result<TValue> : Result
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
         (IsSuccess) ? mapper(Value) : ErrorsList;
 
-    public TResult IfOrElse<TResult>(
-        Func<TValue, TResult> success,
-        Func<IEnumerable<Error>, TResult> failure)
+    public TResult IfOrElse<TResult>(Func<TValue, TResult> ifFunc, Func<IEnumerable<Error>, TResult> elseFunc)
     {
         if (IsSuccess)
         {
-            return success(Value);
+            return ifFunc(Value);
         }
 
-        return failure(Errors);
+        return elseFunc(Errors);
     }
 
-    public void IfOrElse(Action<TValue> success, Action<IEnumerable<Error>> failure)
+    public void IfOrElse(Action<TValue> ifAction, Action<IEnumerable<Error>>? elseAction = null)
     {
         if (IsSuccess)
         {
-            success(Value);
+            ifAction(Value);
         }
         else
         {
-            failure(Errors);
+            elseAction?.Invoke(Errors);
         }
+    }
+
+    public Task<Result<TValue>> IfOrElse(
+        Func<TValue, Task<Result<TValue>>> ifFunc,
+        Func<IEnumerable<Error>, Task<Result<TValue>>>? elseFunc = null)
+    {
+        if (IsSuccess)
+        {
+            return ifFunc(Value);
+        }
+
+        if (elseFunc is not null)
+        {
+            return elseFunc(Errors);
+        }
+
+        return Task.FromResult(this);
+    }
+
+    public Result<TValue> IfOrElse(
+        Func<TValue, Result<TValue>> ifFunc,
+        Func<IEnumerable<Error>, Result<TValue>>? elseFunc = null)
+    {
+        if (IsSuccess)
+        {
+            return ifFunc(Value);
+        }
+
+        if (elseFunc is not null)
+        {
+            return elseFunc(Errors);
+        }
+
+        return this;
     }
 }

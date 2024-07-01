@@ -77,6 +77,50 @@ public sealed partial class ResultTTests
         failureOperationCalled.Should().BeTrue();
     }
 
+    [TestMethod]
+    public async Task IfOrElseAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    {
+        // arrange
+        Result<TestEntity> result = CreateTestResult();
+
+        // act
+        var newResult = await result.IfOrElse(
+            async val => await DefaultSuccessActionWithResultAsync(val),
+            [ExcludeFromCodeCoverage] async (errors) => await DefaultErrorActionWithResultAsync(errors));
+
+        // assert
+        newResult.IsSuccess.Should().BeTrue();
+    }
+
+    [TestMethod]
+    public async Task IfOrElseAsync_OnlyCallsFailureOperation_WhenIsSuccessFalse()
+    {
+        // arrange
+        Result<TestEntity> result = DefaultErrors.Conflict;
+
+        // act
+        var newResult = await result.IfOrElse(
+            [ExcludeFromCodeCoverage] async (val) => await DefaultSuccessActionWithResultAsync(val),
+            async (errors) => await DefaultErrorActionWithResultAsync(errors));
+
+        // assert
+        newResult.IsSuccess.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public async Task IfOrElseAsync_SkipsCallFailureOperation_WhenFailureOperationOmitted()
+    {
+        // arrange
+        Result<TestEntity> result = DefaultErrors.Conflict;
+
+        // act
+        var newResult = await result.IfOrElse(
+            [ExcludeFromCodeCoverage] async (val) => await DefaultSuccessActionWithResultAsync(val));
+
+        // assert
+        newResult.IsSuccess.Should().BeFalse();
+    }
+
     private Task<string> DefaultSuccessOperationAsync(out bool successOperationCalled)
     {
         successOperationCalled = true;
@@ -86,18 +130,6 @@ public sealed partial class ResultTTests
     private Task DefaultSuccessActionAsync(out bool successOperationCalled)
     {
         successOperationCalled = true;
-        return Task.CompletedTask;
-    }
-
-    private Task<string> DefaultFailureOperationAsync(Error error, out bool failureOperationCalled)
-    {
-        failureOperationCalled = error.Equals(DefaultErrors.Conflict);
-        return Task.FromResult("problem");
-    }
-
-    private Task DefaultFailureActionAsync(Error error, out bool failureOperationCalled)
-    {
-        failureOperationCalled = error.Equals(DefaultErrors.Conflict);
         return Task.CompletedTask;
     }
 
@@ -111,5 +143,17 @@ public sealed partial class ResultTTests
     {
         failureOperationCalled = true;
         return Task.CompletedTask;
+    }
+
+    private async Task<Result<TestEntity>> DefaultSuccessActionWithResultAsync(TestEntity val)
+    {
+        await Task.CompletedTask;
+        return val;
+    }
+
+    private async Task<Result<TestEntity>> DefaultErrorActionWithResultAsync(IEnumerable<Error> errors)
+    {
+        await Task.CompletedTask;
+        return errors.ToArray();
     }
 }
