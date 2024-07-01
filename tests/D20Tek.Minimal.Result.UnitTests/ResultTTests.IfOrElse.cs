@@ -8,7 +8,7 @@ namespace D20Tek.Minimal.Result.UnitTests;
 public sealed partial class ResultTTests
 {
     [TestMethod]
-    public void Match_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    public void IfOrElse_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
@@ -27,7 +27,7 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public void Match_OnlyCallsFailureOperation_WhenIsFailureTrue()
+    public void IfOrElse_OnlyCallsFailureOperation_WhenIsFailureTrue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
@@ -45,70 +45,70 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public void MatchAction_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    public void IfOrElseAction_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
         result.IfOrElse(
-            val => DefaultSuccessAction(out successActionCalled),
-            [ExcludeFromCodeCoverage] (errors) => DefaultFailureAction(out failureActionCalled));
+            val => DefaultSuccessAction(out successOperationCalled),
+            [ExcludeFromCodeCoverage] (errors) => DefaultFailureAction(out failureOperationCalled));
 
         // assert
-        successActionCalled.Should().BeTrue();
-        failureActionCalled.Should().BeFalse();
+        successOperationCalled.Should().BeTrue();
+        failureOperationCalled.Should().BeFalse();
     }
 
     [TestMethod]
-    public void MatchAction_OnlyCallsFailureOperation_WhenIsFailureTrue()
+    public void IfOrElseAction_OnlyCallsFailureOperation_WhenIsFailureTrue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
         result.IfOrElse(
-            [ExcludeFromCodeCoverage] (val) => DefaultSuccessAction(out successActionCalled),
-            errors => DefaultFailureAction(out failureActionCalled));
+            [ExcludeFromCodeCoverage] (val) => DefaultSuccessAction(out successOperationCalled),
+            errors => DefaultFailureAction(out failureOperationCalled));
 
         // assert
-        successActionCalled.Should().BeFalse();
-        failureActionCalled.Should().BeTrue();
+        successOperationCalled.Should().BeFalse();
+        failureOperationCalled.Should().BeTrue();
     }
 
     [TestMethod]
-    public void MatchAction_SkipsCallingFailureOperation_WhenFailureActionNull()
+    public void IfOrElseAction_SkipsCallingFailureOperation_WhenFailureActionNull()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        result.IfOrElse([ExcludeFromCodeCoverage] (val) => DefaultSuccessAction(out successActionCalled));
+        result.IfOrElse([ExcludeFromCodeCoverage] (val) => DefaultSuccessAction(out successOperationCalled));
 
         // assert
-        successActionCalled.Should().BeFalse();
-        failureActionCalled.Should().BeFalse();
+        successOperationCalled.Should().BeFalse();
+        failureOperationCalled.Should().BeFalse();
     }
 
     [TestMethod]
-    public void IfOrElse_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    public void IfOrElseResult_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
         var newResult = result.IfOrElse(
-            val => DefaultSuccessActionWithResult(val, ref successActionCalled),
-            [ExcludeFromCodeCoverage] (errors) => DefaultErrorActionWithResult(errors, ref failureActionCalled));
+            val => DefaultSuccessActionWithResult(val, ref successOperationCalled),
+            [ExcludeFromCodeCoverage] (errors) => DefaultErrorActionWithResult(errors, ref failureOperationCalled));
 
         // assert
         newResult.IsSuccess.Should().BeTrue();
-        successActionCalled.Should().BeTrue();
-        failureActionCalled.Should().BeFalse();
+        successOperationCalled.Should().BeTrue();
+        failureOperationCalled.Should().BeFalse();
     }
 
     [TestMethod]
@@ -116,17 +116,17 @@ public sealed partial class ResultTTests
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
         var newResult = result.IfOrElse(
-            [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successActionCalled),
-            errors => DefaultErrorActionWithResult(errors, ref failureActionCalled));
+            [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successOperationCalled),
+            errors => DefaultErrorActionWithResult(errors, ref failureOperationCalled));
 
         // assert
         newResult.IsSuccess.Should().BeFalse();
-        successActionCalled.Should().BeFalse();
-        failureActionCalled.Should().BeTrue();
+        successOperationCalled.Should().BeFalse();
+        failureOperationCalled.Should().BeTrue();
     }
 
     [TestMethod]
@@ -134,16 +134,16 @@ public sealed partial class ResultTTests
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
-        bool successActionCalled = false, failureActionCalled = false;
+        bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
         var newResult = result.IfOrElse(
-            [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successActionCalled));
+            [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successOperationCalled));
 
         // assert
         newResult.IsSuccess.Should().BeFalse();
-        successActionCalled.Should().BeFalse();
-        failureActionCalled.Should().BeFalse();
+        successOperationCalled.Should().BeFalse();
+        failureOperationCalled.Should().BeFalse();
     }
 
     private Result<TestEntity> DefaultSuccessActionWithResult(TestEntity val, ref bool successActionCalled)

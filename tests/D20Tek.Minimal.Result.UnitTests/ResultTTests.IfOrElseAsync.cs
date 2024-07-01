@@ -8,7 +8,7 @@ namespace D20Tek.Minimal.Result.UnitTests;
 public sealed partial class ResultTTests
 {
     [TestMethod]
-    public async Task MatchAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    public async Task IfOrElseAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
@@ -26,7 +26,7 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public async Task MatchAsync_OnlyCallsFailureOperation_WhenIsFailureTrue()
+    public async Task IfOrElseAsync_OnlyCallsFailureOperation_WhenIsFailureTrue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
@@ -44,7 +44,7 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public async Task MatchActionAsync_OnlyCallsSuccessAction_WhenIsSuccessTrue()
+    public async Task IfOrElseActionAsync_OnlyCallsSuccessAction_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
@@ -61,7 +61,7 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public async Task MatchActionAsync_OnlyCallsFailureAction_WhenIsFailureTrue()
+    public async Task IfOrElseActionAsync_OnlyCallsFailureAction_WhenIsFailureTrue()
     {
         // arrange
         Result<TestEntity> result = DefaultErrors.Conflict;
@@ -78,7 +78,7 @@ public sealed partial class ResultTTests
     }
 
     [TestMethod]
-    public async Task IfOrElseAsync_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
+    public async Task IfOrElseAsyncResult_OnlyCallsSuccessOperation_WhenIsSuccessTrue()
     {
         // arrange
         Result<TestEntity> result = CreateTestResult();
