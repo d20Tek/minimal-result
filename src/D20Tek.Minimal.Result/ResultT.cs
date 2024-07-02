@@ -17,12 +17,7 @@ public class Result<TValue> : Result
         ValueOrDefault = value;
     }
 
-    protected Result(Error error)
-        : base(error)
-    {
-    }
-
-    protected Result(IEnumerable<Error> errors)
+    protected Result(Error[] errors)
         : base(errors)
     {
     }
@@ -31,16 +26,16 @@ public class Result<TValue> : Result
         new Result<TValue>(value);
 
     public static implicit operator Result<TValue>(Error error) =>
-        new Result<TValue>(error);
+        new Result<TValue>([error]);
 
     public static implicit operator Result<TValue>(Error[] errors) =>
         new Result<TValue>(errors);
 
     public static implicit operator Result<TValue>(List<Error> errors) =>
-        new Result<TValue>(errors);
+        new Result<TValue>(errors.ToArray());
 
     public static implicit operator Result<TValue>(Exception exception) =>
-        new Result<TValue>(DefaultErrors.UnhandledExpection(exception.Message));
+        new Result<TValue>([DefaultErrors.UnhandledExpection(exception.Message)]);
 
     public static Result<TValue> Success(TValue value) => new Result<TValue>(value);
 
@@ -68,16 +63,6 @@ public class Result<TValue> : Result
         return ErrorsList;
     }
 
-    public async Task<Result<TResult>> Merge<TResult>(Func<TValue, Task<Result<TResult>>> ifSucceedingFunc)
-    {
-        if (IsSuccess)
-        {
-            return await ifSucceedingFunc(Value);
-        }
-
-        return ErrorsList;
-    }
-
     public TResult IfOrElse<TResult>(Func<TValue, TResult> ifFunc, Func<IEnumerable<Error>, TResult> elseFunc)
     {
         if (IsSuccess)
@@ -98,23 +83,6 @@ public class Result<TValue> : Result
         {
             elseAction?.Invoke(Errors);
         }
-    }
-
-    public Task<Result<TValue>> IfOrElse(
-        Func<TValue, Task<Result<TValue>>> ifFunc,
-        Func<IEnumerable<Error>, Task<Result<TValue>>>? elseFunc = null)
-    {
-        if (IsSuccess)
-        {
-            return ifFunc(Value);
-        }
-
-        if (elseFunc is not null)
-        {
-            return elseFunc(Errors);
-        }
-
-        return Task.FromResult(this);
     }
 
     public Result<TValue> IfOrElse(

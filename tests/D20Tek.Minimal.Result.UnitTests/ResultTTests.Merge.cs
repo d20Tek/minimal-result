@@ -80,7 +80,7 @@ public sealed partial class ResultTTests
         Result<int> initial = 42;
 
         // act
-        var result = await initial.Merge<string>(async (x) => { await Task.CompletedTask; return "test2"; })
+        var result = await initial.Merge<int, string>(async (x) => { await Task.CompletedTask; return "test2"; })
                                   .ContinueMergeWith<string, bool>(async (x) => { await Task.CompletedTask; return true; })
                                   .ContinueMergeWith<bool, string>(async (x) => { await Task.CompletedTask; return "test succeeded"; });
 
@@ -96,7 +96,7 @@ public sealed partial class ResultTTests
         Result<int> initial = 42;
 
         // act
-        var result = await initial.Merge<string>(async (x) => { await Task.CompletedTask; return "test2"; })
+        var result = await initial.Merge<int, string>(async (x) => { await Task.CompletedTask; return "test2"; })
                                   .ContinueMergeWith<string, bool>(async (x) => { await Task.CompletedTask; return Error.Invalid("Test.Failure", "Test failed as expected."); })
                                   .ContinueMergeWith<bool, string>(UnusedCheck);
 
@@ -119,7 +119,7 @@ public sealed partial class ResultTTests
         Result<int> initial = Error.Invalid("Test.Failure.Initial", "Test failed as expected.");
 
         // act
-        var result = await initial.Merge<string>(UnusedCheck1)
+        var result = await initial.Merge<int,string>(UnusedCheck1)
                                   .ContinueMergeWith<string, bool>(UnusedCheck2)
                                   .ContinueMergeWith<bool, string>(UnusedCheck3);
 
