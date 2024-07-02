@@ -182,12 +182,6 @@ public sealed partial class ResultTTests
         return "ok";
     }
 
-    private string DefaultFailureOperation(Error error, out bool failureOperationCalled)
-    {
-        failureOperationCalled = error.Equals(DefaultErrors.Conflict);
-        return "problem";
-    }
-
     private string DefaultFailureOperation(out bool failureOperationCalled)
     {
         failureOperationCalled = true;
@@ -202,11 +196,6 @@ public sealed partial class ResultTTests
     private void DefaultFailureAction(out bool failureActionCalled)
     {
         failureActionCalled = true;
-    }
-
-    private void DefaultFailureAction(Error error, out bool failureActionCalled)
-    {
-        failureActionCalled = error.Equals(DefaultErrors.Conflict);
     }
 
     private Result<TestEntity> CreateTestResult()

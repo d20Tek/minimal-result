@@ -19,9 +19,9 @@ There are also a full set of samples that use these packages in various WebApi s
 ## Installation
 These libraries are NuGet packages so it is easy to add to your project. To install the packages into your solution, you can use the NuGet Package Manager. In PM, please use the following command:
 ```  
-PM > Install-Package D20Tek.Minimal.Result -Version 0.1.3-prerelease
-PM > Install-Package D20Tek.Minimal.Result.AspNetCore -Version 0.1.3-prerelease
-PM > Install-Package D20Tek.Minimal.Result.Extensions -Version 0.1.3-prerelease
+PM > Install-Package D20Tek.Minimal.Result -Version 1.0.1
+PM > Install-Package D20Tek.Minimal.Result.AspNetCore -Version 1.0.1
+PM > Install-Package D20Tek.Minimal.Result.Extensions -Version 1.0.1
 ``` 
 
 To install in the Visual Studio UI, go to the Tools menu > "Manage NuGet Packages". Then search for D20Tek.Minimal.Result, and install whichever packages you require from there.
@@ -87,7 +87,7 @@ static async Task<Guid> CreateNewMember(IMemberRepository memberRepository)
     var createHandler = new CreateMemberCommandHandler(memberRepository);
     var createdResult = await createHandler.Handle(new CreateMemberCommand("Foo", "Bar", "foo@bar.com"));
 
-    return createdResult.MatchFirstError(
+    return createdResult.IfOrElse(
         success =>
         {
             Console.WriteLine("member created successfully!");
@@ -96,7 +96,7 @@ static async Task<Guid> CreateNewMember(IMemberRepository memberRepository)
         error =>
         {
             Console.WriteLine("member creation failed.");
-            Console.WriteLine(error.ToString());
+            Console.WriteLine(error.First().ToString());
             return Guid.Empty;
         });
 }

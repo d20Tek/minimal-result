@@ -18,7 +18,7 @@ public class ValidationsResult
         {
             if (value is null)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Value cannot be null if ValidationReult is in valid state.");
             }
 
             return value;
