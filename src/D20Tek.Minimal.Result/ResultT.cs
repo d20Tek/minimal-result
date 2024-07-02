@@ -85,7 +85,24 @@ public class Result<TValue> : Result
         }
     }
 
-    public Result<TValue> IfOrElse(
+    public Result<TValue> IfOrElseResult(Action<TValue> ifAction, Action<IEnumerable<Error>>? elseAction = null)
+    {
+        if (IsSuccess)
+        {
+            ifAction(Value);
+            return this;
+        }
+
+        if (elseAction is not null)
+        {
+            elseAction(Errors);
+            return this;
+        }
+
+        return this;
+    }
+
+    public Result<TValue> IfOrElseResult(
         Func<TValue, Result<TValue>> ifFunc,
         Func<IEnumerable<Error>, Result<TValue>>? elseFunc = null)
     {

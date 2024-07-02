@@ -149,4 +149,66 @@ public sealed partial class ResultTTests
         result.Errors.Count.Should().Be(1);
         result.Errors.First().Code.Should().Be("Test.Failure.Initial");
     }
+
+    [TestMethod]
+    public void IfOrElseResult_WithSuccess_ReturnsSameResult()
+    {
+        // arrange
+        Result<int> initial = 42;
+        bool failureActionCalled = false;
+
+        // act
+        var result = initial.IfOrElseResult(
+            DefaultAction,
+            [ExcludeFromCodeCoverage] (e) => failureActionCalled = true);
+
+        void DefaultAction<T>(T x)
+        {
+            Console.WriteLine($"{0}", x);
+        }
+
+        // assert
+        result.IsSuccess.Should().BeTrue();
+        failureActionCalled.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public void IfOrElseResult_WithIsFaliureButNoAction_ReturnsSameResult()
+    {
+        // arrange
+        Result<int> initial = Error.Invalid("Failure", "Test error.");
+
+        // act
+        var result = initial.IfOrElseResult(DefaultAction);
+
+        [ExcludeFromCodeCoverage]
+        void DefaultAction<T>(T x)
+        {
+            Console.WriteLine($"{0}", x);
+        }
+
+        // assert
+        result.IsSuccess.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public void IfOrElseResult_WithFailure_ReturnsSameResult()
+    {
+        // arrange
+        Result<int> initial = Error.Invalid("Failure", "Test error.");
+        bool failureActionCalled = false;
+
+        // act
+        var result = initial.IfOrElseResult(DefaultAction, x => failureActionCalled = true);
+
+        [ExcludeFromCodeCoverage]
+        void DefaultAction<T>(T x)
+        {
+            Console.WriteLine($"{0}", x);
+        }
+
+        // assert
+        result.IsSuccess.Should().BeFalse();
+        failureActionCalled.Should().BeTrue();
+    }
 }
