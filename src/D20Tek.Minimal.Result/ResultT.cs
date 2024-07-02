@@ -58,6 +58,26 @@ public class Result<TValue> : Result
     public Result<TResult> MapResult<TResult>(Func<TValue, TResult> mapper) =>
         (IsSuccess) ? mapper(Value) : ErrorsList;
 
+    public Result<TResult> Merge<TResult>(Func<TValue, Result<TResult>> ifSucceedingFunc)
+    {
+        if (IsSuccess)
+        {
+            return ifSucceedingFunc(Value);
+        }
+
+        return ErrorsList;
+    }
+
+    public async Task<Result<TResult>> Merge<TResult>(Func<TValue, Task<Result<TResult>>> ifSucceedingFunc)
+    {
+        if (IsSuccess)
+        {
+            return await ifSucceedingFunc(Value);
+        }
+
+        return ErrorsList;
+    }
+
     public TResult IfOrElse<TResult>(Func<TValue, TResult> ifFunc, Func<IEnumerable<Error>, TResult> elseFunc)
     {
         if (IsSuccess)
