@@ -101,7 +101,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = result.IfOrElse(
+        var newResult = result.IfOrElseResult(
             val => DefaultSuccessActionWithResult(val, ref successOperationCalled),
             [ExcludeFromCodeCoverage] (errors) => DefaultErrorActionWithResult(errors, ref failureOperationCalled));
 
@@ -119,7 +119,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = result.IfOrElse(
+        var newResult = result.IfOrElseResult(
             [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successOperationCalled),
             errors => DefaultErrorActionWithResult(errors, ref failureOperationCalled));
 
@@ -137,7 +137,7 @@ public sealed partial class ResultTTests
         bool successOperationCalled = false, failureOperationCalled = false;
 
         // act
-        var newResult = result.IfOrElse(
+        var newResult = result.IfOrElseResult(
             [ExcludeFromCodeCoverage] (val) => DefaultSuccessActionWithResult(val, ref successOperationCalled));
 
         // assert

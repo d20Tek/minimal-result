@@ -27,7 +27,7 @@ public static class ResultAsyncExtensions
         return task;
     }
 
-    public static Task<Result<TValue>> IfOrElse<TValue>(
+    public static Task<Result<TValue>> IfOrElseResult<TValue>(
         this Result<TValue> result,
         Func<TValue, Task<Result<TValue>>> ifFunc,
         Func<IEnumerable<Error>, Task<Result<TValue>>>? elseFunc = null)

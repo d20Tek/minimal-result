@@ -84,7 +84,7 @@ public sealed partial class ResultTTests
         Result<TestEntity> result = CreateTestResult();
 
         // act
-        var newResult = await result.IfOrElse<TestEntity>(
+        var newResult = await result.IfOrElseResult<TestEntity>(
             async val => await DefaultSuccessActionWithResultAsync(val),
             [ExcludeFromCodeCoverage] async (errors) => await DefaultErrorActionWithResultAsync(errors));
 
@@ -99,7 +99,7 @@ public sealed partial class ResultTTests
         Result<TestEntity> result = DefaultErrors.Conflict;
 
         // act
-        var newResult = await result.IfOrElse<TestEntity>(
+        var newResult = await result.IfOrElseResult<TestEntity>(
             [ExcludeFromCodeCoverage] async (val) => await DefaultSuccessActionWithResultAsync(val),
             async (errors) => await DefaultErrorActionWithResultAsync(errors));
 
@@ -114,7 +114,7 @@ public sealed partial class ResultTTests
         Result<TestEntity> result = DefaultErrors.Conflict;
 
         // act
-        var newResult = await result.IfOrElse<TestEntity>(
+        var newResult = await result.IfOrElseResult<TestEntity>(
             [ExcludeFromCodeCoverage] async (val) => await DefaultSuccessActionWithResultAsync(val));
 
         // assert
